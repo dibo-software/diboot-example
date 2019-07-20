@@ -13,12 +13,15 @@ import com.diboot.example.entity.Department;
 import com.diboot.example.entity.Organization;
 import com.diboot.example.service.DepartmentService;
 import com.diboot.example.vo.DepartmentVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -30,6 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/department")
 public class DepartmentController extends BaseCrudRestController {
+    private final static Logger log = LoggerFactory.getLogger(DepartmentController.class);
 
     @Autowired
     private DepartmentService departmentService;

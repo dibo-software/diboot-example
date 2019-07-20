@@ -26,5 +26,5 @@ http://localhost:8080/example/user/list
 
 http://localhost:8080/example/department/list
 
-> 注解自动绑定依赖实体对应的Service类，需确保你的{Entity}Service,{Entity}ServiceImpl,{Entity}Mapper存在。
+> 注解自动绑定依赖实体对应的IService类，需确保你的{Entity}Service,{Entity}ServiceImpl,{Entity}Mapper存在。
 具体可参照本示例中。
