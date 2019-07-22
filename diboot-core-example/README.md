@@ -1,7 +1,7 @@
 ## diboot-core 示例项目
 
 [diboot-core](https://github.com/dibo-software/diboot-v2/tree/master/diboot-core) 组件主要实现了：
-1. 多表关联的自动绑定, 实现单表CRUD和多表关联的无SQL化
+1. 多表关联的自动绑定, 实现单表CRUD和多表关联的无SQL化注解绑定
 2. 提供其他常用开发场景的最佳实践封装。
 
 本示例展示基于diboot-core的单表CRUD和多表关联的无SQL的使用样例。
