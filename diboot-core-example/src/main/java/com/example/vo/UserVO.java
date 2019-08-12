@@ -1,11 +1,16 @@
 package com.example.vo;
 
+import com.diboot.core.binding.annotation.BindDict;
 import com.diboot.core.binding.annotation.BindEntity;
+import com.diboot.core.binding.annotation.BindEntityList;
 import com.diboot.core.binding.annotation.BindField;
 import com.example.entity.Department;
 import com.example.entity.Organization;
+import com.example.entity.Role;
 import com.example.entity.User;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Mazhicheng
@@ -17,7 +22,7 @@ public class UserVO extends User {
     private static final long serialVersionUID = 3526115343377985725L;
 
     // 绑定数据字典枚举
-    //@BindDict(type="GENDER", field = "gender")
+    @BindDict(type="GENDER", field = "gender")
     private String genderLabel;
 
     // 字段关联
@@ -35,7 +40,7 @@ public class UserVO extends User {
     private Organization organization;
 
     // 支持通过中间表的多-多Entity实体关联
-    //@BindEntityList(entity = Role.class, condition="this.id=user_role.user_id AND user_role.role_id=id")
-    //private List<Role> roleList;
+    @BindEntityList(entity = Role.class, condition="this.id=user_role.user_id AND user_role.role_id=id")
+    private List<Role> roleList;
 
 }

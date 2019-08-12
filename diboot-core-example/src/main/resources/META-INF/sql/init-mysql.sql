@@ -1,18 +1,4 @@
--- create schema diboot_example collate utf8_general_ci;
--- 初始化表
-create table department
-(
-  id bigint unsigned not null comment 'ID'
-    primary key,
-  parent_id bigint default 0 not null comment '上级部门ID',
-  org_id bigint not null comment '单位ID',
-  name varchar(50) not null comment '名称',
-  extdata varchar(100) null comment '扩展字段',
-  deleted tinyint(1) default 0 not null comment '已删除',
-  create_time timestamp default CURRENT_TIMESTAMP not null comment '创建时间'
-)
-  comment '组织单位' charset=utf8mb4;
-
+-- 配置属性 diboot.core.init-sql=true，starter会自动安装dictionary。
 create table dictionary
 (
   id int unsigned auto_increment comment 'ID'
@@ -29,6 +15,19 @@ create table dictionary
   deleted tinyint(1) default 0 not null comment '已删除',
   create_time timestamp default CURRENT_TIMESTAMP not null comment '创建时间'
 );
+-- 初始化表
+create table department
+(
+  id bigint unsigned not null comment 'ID'
+    primary key,
+  parent_id bigint default 0 not null comment '上级部门ID',
+  org_id bigint not null comment '单位ID',
+  name varchar(50) not null comment '名称',
+  extdata varchar(100) null comment '扩展字段',
+  deleted tinyint(1) default 0 not null comment '已删除',
+  create_time timestamp default CURRENT_TIMESTAMP not null comment '创建时间'
+)
+comment '组织单位' charset=utf8mb4;
 
 create table organization
 (

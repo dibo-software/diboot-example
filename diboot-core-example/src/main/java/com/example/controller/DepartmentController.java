@@ -23,10 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Organization相关Controller
+ * Department相关Controller示例
  * @author Mazhicheng
- * @version 2018/12/23
- * Copyright © www.dibo.ltd
+ * @version v2.0
+ * @date 2019/1/19
  */
 @RestController
 @RequestMapping("/department")
@@ -39,16 +39,15 @@ public class DepartmentController extends BaseCrudRestController {
     /***
      * 查询ViewObject的分页数据 (此为非继承的自定义使用案例，更简化的调用父类案例请参考UserController)
      * <p>
-     * url参数示例: /list?_pageSize=20&_pageIndex=1&_orderBy=id&code=TST
+     * url参数示例: /list?pageSize=20&pageIndex=1&orderBy=id&code=TST
      * </p>
      * @return
      * @throws Exception
      */
     @GetMapping("/list")
-    public JsonResult getVOList(HttpServletRequest request) throws Exception{
-        QueryWrapper<Department> queryWrapper = buildQuery(request);
-        // 构建分页
-        Pagination pagination = buildPagination(request);
+    public JsonResult getVOList(Department department, Pagination pagination, HttpServletRequest request) throws Exception{
+        // 将Entity
+        QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(department);
         // 查询当前页的Entity主表数据
         List entityList = getService().getEntityList(queryWrapper, pagination);
         // 自动转换VO中注解绑定的关联
@@ -60,14 +59,14 @@ public class DepartmentController extends BaseCrudRestController {
     /***
      * 查询ViewObject全部数据 (此为非继承的自定义使用案例，更简化的调用父类案例请参考UserController)
      * <p>
-     * url参数示例: /listAll?_orderBy=id&code=TST
+     * url参数示例: /listAll?orderBy=id&code=TST
      * </p>
      * @return
      * @throws Exception
      */
     @GetMapping("/listAll")
-    public JsonResult getAllVOList(HttpServletRequest request) throws Exception{
-        QueryWrapper<Department> queryWrapper = buildQuery(request);
+    public JsonResult getAllVOList(Department department, HttpServletRequest request) throws Exception{
+        QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(department);
         // 查询当前页的Entity主表数据
         List entityList = getService().getEntityList(queryWrapper);
         // 自动转换VO中注解绑定的关联

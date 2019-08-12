@@ -5,7 +5,7 @@ import com.diboot.core.entity.BaseExtEntity;
 import lombok.Data;
 
 /**
- * 定时任务
+ * Department部门
  * @author Mazhicheng
  * @version v2.0
  * @date 2018/12/27

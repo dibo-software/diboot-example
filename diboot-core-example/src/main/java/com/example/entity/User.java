@@ -5,6 +5,7 @@ import com.diboot.core.entity.BaseEntity;
 import lombok.Data;
 
 /**
+ * 用户Entity
  * @author Mazhicheng
  * @version v2.0
  * @date 2019/1/30

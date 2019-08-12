@@ -1,0 +1,2 @@
+rootProject.name = 'diboot-v2-example'
+include 'diboot-core-example'

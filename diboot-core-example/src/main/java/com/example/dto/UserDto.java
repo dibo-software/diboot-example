@@ -1,27 +1,18 @@
 package com.example.dto;
 
+import com.diboot.core.binding.query.BindQuery;
+import com.diboot.core.binding.query.Comparison;
 import com.example.entity.User;
-import com.example.query.BindQuery;
-import com.example.query.Comparison;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <Description>
- *
+ * DTO测试样例，用于自动绑定QueryWrapper
  * @author Mazhicheng
  * @version v2.0
  * @date 2019/08/06
  */
-public class UserDto extends User implements Serializable {
-
-    private static final String UUID = "1233";
-
-    public static final String TTT = "223";
-
-    @BindQuery(comparison = Comparison.EQ)
-    private Long departmentId;
+public class UserDto extends User{
 
     @BindQuery(comparison = Comparison.STARTSWITH)
     private String username;
@@ -35,8 +26,15 @@ public class UserDto extends User implements Serializable {
     @BindQuery(comparison = Comparison.BETWEEN_END, field = "create_time")
     private Date createTimeEnd;
 
-    //@BindQuery(comparison = Comparison.BETWEEN, field = "create_time")
-    private Date[] createTimes;
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String[] getGenders() {
         return genders;
@@ -62,11 +60,4 @@ public class UserDto extends User implements Serializable {
         this.createTimeEnd = createTimeEnd;
     }
 
-    public Date[] getCreateTimes() {
-        return createTimes;
-    }
-
-    public void setCreateTimes(Date[] createTime) {
-        this.createTimes = createTime;
-    }
 }

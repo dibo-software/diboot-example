@@ -7,6 +7,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
+ * 角色Entity
  * @author Mazhicheng
  * @version v2.0
  * @date 2019/1/30
