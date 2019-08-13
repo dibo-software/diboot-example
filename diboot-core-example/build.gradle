@@ -7,4 +7,11 @@ dependencies {
     // diboot-core 2.x
     compile("com.diboot:diboot-core-spring-boot-starter:2.0.2")
 
+    //diboot私有仓库
+    compile(
+            'com.diboot:diboot-shiro-wx-mp:2.0-alpha',
+            'com.diboot:diboot-shiro-wx-cp:2.0.1',
+            'com.diboot:diboot-components-msg:2.0.1'
+    )
+
 }

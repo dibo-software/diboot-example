@@ -3,6 +3,7 @@ buildscript {
         springBootVersion = '2.1.6.RELEASE'
     }
     repositories {
+        maven{ url 'http://maven.diboot.com/repository/diboot'}
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
@@ -24,6 +25,7 @@ subprojects {
     // 指定编码格式
     [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
     repositories {
+        maven{ url 'http://maven.diboot.com/repository/diboot'}
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     ext {//依赖版本
