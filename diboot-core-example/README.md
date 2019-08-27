@@ -20,13 +20,18 @@
 
 >   spring.datasource.password
 
-#### 3. 启动diboot-core-example项目，让starter自动安装directory表。
+#### 3. 执行example相关SQL：
+打开[MySQL初始化脚本](https://github.com/dibo-software/diboot-v2-example/blob/master/diboot-core-example/src/main/resources/META-INF/sql/init-mysql.sql)
+并在你的MySQL客户端执行（暂只提供MySQL样例，其他数据库请自行转换）。
+
+#### 4. 启动diboot-core-example项目，让starter自动安装directory表。
 如果打印SQL执行成功信息后将diboot.core.init-sql配置项删除。
 如安装失败，请打开diboot-core-*.jar/META-INF/sql中对应数据库的脚本手动执行。
 
-#### 3. 编译运行该项目
+#### 5. 编译运行该项目
 浏览器访问如下接口，你会看到接口返回json已经自动绑定了VO中声明的关联（关联字段、实体、实体集合、数据字典）
 http://localhost:8080/example/user/list
+
 http://localhost:8080/example/department/list
 > 注解自动绑定依赖实体对应的IService类，需确保你的{Entity}Service,{Entity}ServiceImpl,{Entity}Mapper存在。
 具体可参照本示例中。
