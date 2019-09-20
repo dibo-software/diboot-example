@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.6.RELEASE'
+        springBootVersion = '2.1.8.RELEASE'
     }
     repositories {
         maven{ url 'http://maven.diboot.com/repository/diboot'}
@@ -13,7 +13,7 @@ buildscript {
 // 所有模块/项目的通用配置
 allprojects {
     group 'com.diboot'
-    version '2.0-SNAPSHOT'
+    version '2.0.3-SNAPSHOT'
     apply plugin: 'idea'
 }
 // 子模块/项目的统一配置
@@ -29,7 +29,7 @@ subprojects {
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     ext {//依赖版本
-        springBootVersion = "2.1.6.RELEASE"
+        springBootVersion = "2.1.8.RELEASE"
         lombokVersion = "1.18.8"
     }
     dependencies {
