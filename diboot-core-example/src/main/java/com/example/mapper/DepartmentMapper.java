@@ -5,7 +5,7 @@ import com.example.entity.Department;
 
 /**
  * 部门Mapper
- * @author Mazhicheng
+ * @author Mazc
  * @version 2018/12/22
  */
 public interface DepartmentMapper extends BaseCrudMapper<Department> {

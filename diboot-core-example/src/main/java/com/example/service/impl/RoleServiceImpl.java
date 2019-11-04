@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 角色相关Service，此处展示继承自Mybatis-plus的IService，绑定注解同样支持
- * @author Mazhicheng
+ * @author Mazc
  * @version 2018/12/23
  * Copyright © www.dibo.ltd
  */

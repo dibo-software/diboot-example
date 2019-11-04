@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * DTO测试样例，用于自动绑定QueryWrapper
- * @author Mazhicheng
+ * @author Mazc
  * @version v2.0
  * @date 2019/08/06
  */

@@ -5,7 +5,7 @@ import com.example.entity.User;
 
 /**
  * 员工Mapper
- * @author Mazhicheng
+ * @author Mazc
  * @version 2018/12/22
  */
 public interface UserMapper extends BaseCrudMapper<User> {

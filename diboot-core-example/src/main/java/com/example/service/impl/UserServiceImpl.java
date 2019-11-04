@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 员工相关Service
- * @author Mazhicheng
+ * @author Mazc
  * @version 2018/12/23
  * Copyright © www.dibo.ltd
  */

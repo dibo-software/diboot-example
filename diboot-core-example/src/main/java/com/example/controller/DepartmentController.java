@@ -20,11 +20,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
  * Department相关Controller示例
- * @author Mazhicheng
+ * @author Mazc
  * @version v2.0
  * @date 2019/1/19
  */
@@ -94,10 +95,8 @@ public class DepartmentController extends BaseCrudRestController {
      * @throws Exception
      */
     @PostMapping("/")
-    public JsonResult createEntity(@ModelAttribute DepartmentVO viewObject, BindingResult result, HttpServletRequest request)
+    public JsonResult createEntity(@Valid Department entity, BindingResult result, HttpServletRequest request)
             throws Exception{
-        // 转换
-        Department entity = BeanUtils.convert(viewObject, Department.class);
         // 创建
         return super.createEntity(entity, result);
     }

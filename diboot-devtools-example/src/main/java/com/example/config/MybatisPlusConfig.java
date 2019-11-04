@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * Mybatis-Plus配置
  * @author Mazc
  * @version v2.0
- * @date 2019/1/19
+ * @date 2019/11/03
  */
 @Configuration
 @MapperScan(basePackages={"com.example.mapper*"})

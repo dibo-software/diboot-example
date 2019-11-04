@@ -5,7 +5,7 @@ import com.example.entity.Department;
 
 /**
  * 部门相关Service
- * @author Mazhicheng
+ * @author Mazc
  * @version v2.0
  * @date 2019/1/30
  */

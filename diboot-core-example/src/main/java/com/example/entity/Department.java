@@ -1,12 +1,18 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.diboot.core.entity.BaseExtEntity;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Department部门
- * @author Mazhicheng
+ * @author Mazc
  * @version v2.0
  * @date 2018/12/27
  */
@@ -15,12 +21,16 @@ public class Department extends BaseExtEntity {
     private static final long serialVersionUID = -4849732665419794547L;
 
     @TableField
+    @NotNull(message = "parentId不能为空")
     private Long parentId;
 
     @TableField
+    @NotNull(message = "单位ID不能为空")
     private Long orgId;
 
     @TableField
+    @NotNull(message = "部门名称不能为空")
+    @Length(min = 10, max = 20, message = "部门名称长度需>=10且<=20")
     private String name;
 
 }

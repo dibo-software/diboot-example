@@ -1,13 +1,15 @@
 dependencies {
-
     compile("javax.servlet:javax.servlet-api:4.0.1")
+    
     compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     // JDBC Driver
     compile("mysql:mysql-connector-java:8.0.16")
-    // diboot-core-starter 2.x
+    // diboot-devtools-starter
+    compile("com.diboot:diboot-devtools-spring-boot-starter:2.0.3-RC1")
+    // diboot-core-starter
     compile("com.diboot:diboot-core-spring-boot-starter:2.0.3-RC1")
     compile("com.diboot:diboot-core:2.0.3-RC1")
     // mybatis-plus
-    //compile("com.baomidou:mybatis-plus-boot-starter:3.2.0")
+    compile("com.baomidou:mybatis-plus-boot-starter:3.2.0")
     
 }

@@ -5,7 +5,7 @@ import com.example.entity.Organization;
 
 /**
  * 单位Mapper
- * @author Mazhicheng
+ * @author Mazc
  * @version 2018/12/22
  */
 public interface OrganizationMapper extends BaseCrudMapper<Organization> {

@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @author Mazhicheng
+ * @author Mazc
  * @version v2.0
  * @date 2019/1/5
  */
@@ -19,7 +19,7 @@ public class DepartmentVO extends Department {
     private static final long serialVersionUID = -362116388664907913L;
 
     // 直接关联Entity中的某字段
-    @BindField(entity = Organization.class, field = "name", condition = "this.org_id=id")
+    @BindField(entity = Organization.class, field = "name", condition = "this.org_id=id AND name='百度'")
     private String orgName;
 
     // 直接关联Entity

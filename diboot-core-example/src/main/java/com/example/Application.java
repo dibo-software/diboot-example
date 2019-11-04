@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 /**
  * 应用配置
- * @author Mazhicheng
+ * @author Mazc
  * @version v2.0
  * @date 2019/1/19
  */
