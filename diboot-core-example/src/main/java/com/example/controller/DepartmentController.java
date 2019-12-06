@@ -2,25 +2,19 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.diboot.core.controller.BaseCrudRestController;
-import com.diboot.core.service.BaseService;
-import com.diboot.core.util.BeanUtils;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.KeyValue;
 import com.diboot.core.vo.Pagination;
 import com.diboot.core.vo.Status;
 import com.example.entity.Department;
-import com.example.entity.Organization;
 import com.example.service.DepartmentService;
 import com.example.vo.DepartmentVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -31,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/department")
-public class DepartmentController extends BaseCrudRestController {
+public class DepartmentController extends BaseCrudMappingRestController<Department, DepartmentVO> {
     private final static Logger log = LoggerFactory.getLogger(DepartmentController.class);
 
     @Autowired
@@ -45,7 +39,7 @@ public class DepartmentController extends BaseCrudRestController {
      * @return
      * @throws Exception
      */
-    @GetMapping("/list")
+    @GetMapping("/voList")
     public JsonResult getVOList(Department department, Pagination pagination, HttpServletRequest request) throws Exception{
         // 将Entity
         QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(department);
@@ -87,59 +81,6 @@ public class DepartmentController extends BaseCrudRestController {
             .select(Department::getName, Department::getId, Department::getCreateTime);
         List<KeyValue> list = departmentService.getKeyValueList(wrapper);
         return new JsonResult(list);
-    }
-
-    /***
-     * 创建Entity
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/")
-    public JsonResult createEntity(@Valid Department entity, BindingResult result, HttpServletRequest request)
-            throws Exception{
-        // 创建
-        return super.createEntity(entity, result);
-    }
-
-    /***
-     * 查询Entity
-     * @param id ID
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/{id}")
-    public JsonResult getModel(@PathVariable("id")Long id, HttpServletRequest request)
-            throws Exception{
-        DepartmentVO vo = departmentService.getViewObject(id, DepartmentVO.class);
-        return new JsonResult(vo);
-    }
-
-    /***
-     * 更新Entity
-     * @param id ID
-     * @return
-     * @throws Exception
-     */
-    @PutMapping("/{id}")
-    public JsonResult updateModel(@PathVariable("id")Long id, @ModelAttribute Organization entity, BindingResult result,
-                                  HttpServletRequest request) throws Exception{
-        return super.updateEntity(entity, result);
-    }
-
-    /***
-     * 删除用户
-     * @param id 用户ID
-     * @return
-     * @throws Exception
-     */
-    @DeleteMapping("/{id}")
-    public JsonResult deleteModel(@PathVariable("id")Long id, HttpServletRequest request) throws Exception{
-        return super.deleteEntity(id);
-    }
-
-    @Override
-    protected BaseService getService() {
-        return departmentService;
     }
 
 }

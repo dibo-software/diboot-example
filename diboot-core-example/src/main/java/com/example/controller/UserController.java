@@ -26,24 +26,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseCrudRestController {
+public class UserController extends BaseCrudMappingRestController<User, UserVO> {
 
     @Autowired
     private UserService userService;
-
-    /***
-     * 查询VO的分页数据：此例同时示例Enitity自动绑定转换为QueryWrapper。
-     * <p>
-     * url参数示例: /list?gender=F&pageSize=20&pageIndex=1&orderBy=username&gender=M
-     * </p>
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/list")
-    public JsonResult getVOList(User user, Pagination pagination, HttpServletRequest request) throws Exception{
-        QueryWrapper<User> queryWrapper = super.buildQueryWrapper(user);
-        return super.getVOListWithPaging(queryWrapper, pagination, UserVO.class);
-    }
 
     /***
      * 查询VO的分页数据: ：此例同时示例DTO自动绑定转换为QueryWrapper。
@@ -63,11 +49,6 @@ public class UserController extends BaseCrudRestController {
         List<UserVO> voList = super.convertToVoAndBindRelations(entityList, UserVO.class);
         // 返回结果
         return new JsonResult(Status.OK, voList).bindPagination(pagination);
-    }
-
-    @Override
-    protected BaseService getService() {
-        return userService;
     }
 
 }
