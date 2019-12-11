@@ -1,9 +1,6 @@
 dependencies {
-    compile("javax.servlet:javax.servlet-api:4.0.1")
-    
-    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    // JDBC Driver
-    compile("mysql:mysql-connector-java:8.0.16")
     // diboot-devtools-starter
-    compile("com.diboot:diboot-devtools-spring-boot-starter:2.0.3-RC2")
+    providedCompile("com.diboot:diboot-devtools-spring-boot-starter:2.0.3")
+    // diboot-core-starter
+    compile("com.diboot:diboot-core-spring-boot-starter:2.0.3")
 }
