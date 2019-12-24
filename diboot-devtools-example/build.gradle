@@ -1,3 +1,6 @@
+plugins{
+   id 'war'
+}
 dependencies {
     // diboot-devtools-starter
     providedCompile("com.diboot:diboot-devtools-spring-boot-starter:2.0.3")

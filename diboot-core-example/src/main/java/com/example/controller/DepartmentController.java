@@ -42,7 +42,7 @@ public class DepartmentController extends BaseCrudMappingRestController<Departme
     @GetMapping("/voList")
     public JsonResult getVOList(Department department, Pagination pagination, HttpServletRequest request) throws Exception{
         // 将Entity
-        QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(department);
+        QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(department, request);
         // 查询当前页的Entity主表数据
         List entityList = getService().getEntityList(queryWrapper, pagination);
         // 自动转换VO中注解绑定的关联
@@ -61,7 +61,7 @@ public class DepartmentController extends BaseCrudMappingRestController<Departme
      */
     @GetMapping("/listAll")
     public JsonResult getAllVOList(Department department, HttpServletRequest request) throws Exception{
-        QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(department);
+        QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(department, request);
         // 查询当前页的Entity主表数据
         List entityList = getService().getEntityList(queryWrapper);
         // 自动转换VO中注解绑定的关联

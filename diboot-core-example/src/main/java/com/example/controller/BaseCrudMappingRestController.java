@@ -4,7 +4,6 @@ import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.entity.BaseEntity;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +52,8 @@ public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Seri
     * @throws Exception
     */
     @PostMapping("/")
-    public JsonResult createEntityWithMapping(@Valid @RequestBody E entity, BindingResult result, HttpServletRequest request) throws Exception {
-        return super.createEntity(entity, result, request);
+    public JsonResult createEntityWithMapping(@Valid @RequestBody E entity, HttpServletRequest request) throws Exception {
+        return super.createEntity(entity, request);
     }
 
     /***
@@ -64,8 +63,8 @@ public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Seri
     * @throws Exception
     */
     @PutMapping("/{id}")
-    public JsonResult updateEntityWithMapping(@PathVariable("id")Serializable id, @Valid @RequestBody E entity, BindingResult result, HttpServletRequest request) throws Exception {
-        return super.updateEntity(id, entity, result, request);
+    public JsonResult updateEntityWithMapping(@PathVariable("id")Serializable id, @Valid @RequestBody E entity, HttpServletRequest request) throws Exception {
+        return super.updateEntity(id, entity, request);
     }
 
     /***

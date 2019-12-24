@@ -42,7 +42,7 @@ public class UserController extends BaseCrudMappingRestController<User, UserVO> 
     @GetMapping("/listWithDto")
     public JsonResult getVOListWithDTO(UserDto userDto, Pagination pagination, HttpServletRequest request) throws Exception{
         // DTO转换为QueryWrapper，若无@BindQuery注解默认映射为等于=条件，有注解映射为注解条件。
-        QueryWrapper<User> queryWrapper = super.buildQueryWrapper(userDto);
+        QueryWrapper<User> queryWrapper = super.buildQueryWrapper(userDto, request);
         // 查询当前页的Entity主表数据
         List entityList = userService.getEntityList(queryWrapper, pagination);
         // 自动转换VO中注解绑定的关联
