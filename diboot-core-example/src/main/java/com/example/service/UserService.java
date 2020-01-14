@@ -5,7 +5,7 @@ import com.example.entity.User;
 
 /**
  * 员工相关Service
- * @author Mazc
+ * @author www.dibo.ltd
  * @version v2.0
  * @date 2019/1/5
  */

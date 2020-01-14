@@ -5,7 +5,7 @@ import com.example.entity.Role;
 
 /**
  * 角色Mapper
- * @author Mazc
+ * @author www.dibo.ltd
  * @version 2018/12/22
  */
 public interface RoleMapper extends BaseCrudMapper<Role> {

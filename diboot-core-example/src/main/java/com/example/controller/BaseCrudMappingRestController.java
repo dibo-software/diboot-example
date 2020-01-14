@@ -4,22 +4,24 @@ import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.entity.BaseEntity;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
+ * 建议启用devtools，该文件将由diboot-devtools自动生成
+ */
+/**
 * 通用CRUD通用父类RestController，子类继承即可拥有CRUD接口（禁止只读接口Controller继承）
-* @author Mazc
+* @author www.dibo.ltd
 * @version 2.0
 * @date 2019-11-27
 * Copyright © dibo.ltd
 */
+@Slf4j
 public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Serializable> extends BaseCrudRestController {
-    private static final Logger log = LoggerFactory.getLogger(BaseCrudMappingRestController.class);
 
     /***
     * 查询ViewObject的分页数据

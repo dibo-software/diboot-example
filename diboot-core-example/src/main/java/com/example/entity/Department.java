@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.diboot.core.entity.BaseExtEntity;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -12,11 +15,13 @@ import javax.validation.constraints.Size;
 
 /**
  * Department部门
- * @author Mazc
+ * @author www.dibo.ltd
  * @version v2.0
  * @date 2018/12/27
  */
-@Data
+@Getter
+@Setter
+@Accessors(chain = true)
 public class Department extends BaseExtEntity {
     private static final long serialVersionUID = -4849732665419794547L;
 

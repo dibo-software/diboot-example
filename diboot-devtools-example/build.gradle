@@ -1,9 +1,0 @@
-plugins{
-   id 'war'
-}
-dependencies {
-    // diboot-devtools-starter
-    providedCompile("com.diboot:diboot-devtools-spring-boot-starter:2.0.3")
-    // diboot-core-starter
-    compile("com.diboot:diboot-core-spring-boot-starter:2.0.3")
-}
