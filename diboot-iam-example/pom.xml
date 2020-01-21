@@ -25,11 +25,6 @@
     <dependencies>
         <!-- 编译需要的依赖 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
@@ -44,13 +39,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.18</version>
-        </dependency>
-
-        <!-- 依赖Diboot-IAM-base -->
-        <dependency>
-            <groupId>com.diboot</groupId>
-            <artifactId>diboot-iam-base-spring-boot-starter</artifactId>
-            <version>2.0.4-RC1</version>
+            <optional>true</optional>
         </dependency>
 
         <!-- 依赖Spring Boot -->
@@ -69,6 +58,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
+
+        <!-- 依赖Diboot-IAM-base -->
+        <dependency>
+            <groupId>com.diboot</groupId>
+            <artifactId>diboot-iam-base-spring-boot-starter</artifactId>
+            <version>2.0.4-RC2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
