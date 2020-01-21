@@ -1,11 +1,14 @@
-package com.example.controller;
+package com.example.iam.controller;
 
 import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.entity.BaseEntity;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;
+import com.diboot.iam.annotation.BindPermission;
+import com.diboot.iam.annotation.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -14,11 +17,10 @@ import java.io.Serializable;
  * 建议启用devtools，该文件将由diboot-devtools自动生成
  */
 /**
-* 通用CRUD通用父类RestController，子类继承即可拥有CRUD接口（禁止只读接口Controller继承）
+* 通用CRUD通用父类RestController，子类继承即可拥有CRUD接口（只读接口Controller禁止继承）
 * @author www.dibo.ltd
 * @version 2.0
-* @date 2019-11-27
-* Copyright © dibo.ltd
+* @date 2019-12-03
 */
 @Slf4j
 public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Serializable> extends BaseCrudRestController {
@@ -32,8 +34,9 @@ public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Seri
     * @throws Exception
     */
     @GetMapping("/list")
+    @BindPermission(name = "查看列表", code = Operation.LIST)
     public JsonResult getViewObjectListWithMapping(E entity, Pagination pagination, HttpServletRequest request) throws Exception{
-        return super.getViewObjectList(entity, pagination, request);
+        return getViewObjectList(entity, pagination, request);
     }
 
     /***
@@ -43,8 +46,9 @@ public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Seri
     * @throws Exception
     */
     @GetMapping("/{id}")
+    @BindPermission(name = "查看详情", code = Operation.DETAIL)
     public JsonResult getViewObjectWithMapping(@PathVariable("id")Serializable id, HttpServletRequest request) throws Exception{
-        return super.getViewObject(id, request);
+        return getViewObject(id, request);
     }
 
     /***
@@ -54,8 +58,9 @@ public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Seri
     * @throws Exception
     */
     @PostMapping("/")
-    public JsonResult createEntityWithMapping(@Valid @RequestBody E entity, HttpServletRequest request) throws Exception {
-        return super.createEntity(entity, request);
+    @BindPermission(name = "新建", code = Operation.CREATE)
+    public JsonResult createEntityWithMapping(@RequestBody @Valid E entity, HttpServletRequest request) throws Exception {
+        return createEntity(entity, request);
     }
 
     /***
@@ -65,8 +70,9 @@ public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Seri
     * @throws Exception
     */
     @PutMapping("/{id}")
+    @BindPermission(name = "更新", code = Operation.UPDATE)
     public JsonResult updateEntityWithMapping(@PathVariable("id")Serializable id, @Valid @RequestBody E entity, HttpServletRequest request) throws Exception {
-        return super.updateEntity(id, entity, request);
+        return updateEntity(id, entity, request);
     }
 
     /***
@@ -76,8 +82,9 @@ public class BaseCrudMappingRestController<E extends BaseEntity, VO extends Seri
     * @throws Exception
     */
     @DeleteMapping("/{id}")
+    @BindPermission(name = "删除", code = Operation.DELETE)
     public JsonResult deleteEntityWithMapping(@PathVariable("id")Serializable id, HttpServletRequest request) throws Exception {
-        return super.deleteEntity(id, request);
+        return deleteEntity(id, request);
     }
 
 }

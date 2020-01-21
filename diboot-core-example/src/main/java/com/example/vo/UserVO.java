@@ -9,15 +9,20 @@ import com.example.entity.Organization;
 import com.example.entity.Role;
 import com.example.entity.User;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 /**
- * @author Mazc
+ * @author www.dibo.ltd
  * @version v2.0
  * @date 2019/1/30
  */
-@Data
+@Getter
+@Setter
+@Accessors(chain = true)
 public class UserVO extends User {
     private static final long serialVersionUID = 3526115343377985725L;
 

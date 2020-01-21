@@ -2,6 +2,9 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.diboot.core.controller.BaseCrudRestController;
+import com.diboot.core.exception.BusinessException;
+import com.diboot.core.util.V;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.KeyValue;
 import com.diboot.core.vo.Pagination;
@@ -9,8 +12,7 @@ import com.diboot.core.vo.Status;
 import com.example.entity.Department;
 import com.example.service.DepartmentService;
 import com.example.vo.DepartmentVO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Department相关Controller示例
- * @author Mazc
+ * Department相关Controller示例: 继承自BaseCrudRestController，自定义接口
+ * @author www.dibo.ltd
  * @version v2.0
  * @date 2019/1/19
  */
 @RestController
 @RequestMapping("/department")
-public class DepartmentController extends BaseCrudMappingRestController<Department, DepartmentVO> {
-    private final static Logger log = LoggerFactory.getLogger(DepartmentController.class);
+@Slf4j
+public class DepartmentController extends BaseCrudRestController<Department, DepartmentVO> {
 
     @Autowired
     private DepartmentService departmentService;
@@ -67,7 +69,7 @@ public class DepartmentController extends BaseCrudMappingRestController<Departme
         // 自动转换VO中注解绑定的关联
         List<DepartmentVO> voList = super.convertToVoAndBindRelations(entityList, DepartmentVO.class);
         // 返回结果
-        return new JsonResult(Status.OK, voList);
+        return new JsonResult(voList);
     }
 
     /**
@@ -77,6 +79,10 @@ public class DepartmentController extends BaseCrudMappingRestController<Departme
      */
     @GetMapping("/kv")
     public JsonResult getKVPairList(HttpServletRequest request){
+        //测试异常处理，前端指定application/json，返回异常包装JSON
+        if(V.notEmpty(getString(request, "error"))){
+            throw new BusinessException(Status.FAIL_INVALID_PARAM, "请求参数不匹配: xxx");
+        }
         Wrapper wrapper = new QueryWrapper<Department>().lambda()
             .select(Department::getName, Department::getId, Department::getCreateTime);
         List<KeyValue> list = departmentService.getKeyValueList(wrapper);

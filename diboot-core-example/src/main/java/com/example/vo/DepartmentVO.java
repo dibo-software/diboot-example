@@ -6,15 +6,18 @@ import com.diboot.core.binding.annotation.BindField;
 import com.example.entity.Department;
 import com.example.entity.Organization;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 /**
- * @author Mazc
+ * @author www.dibo.ltd
  * @version v2.0
  * @date 2019/1/5
  */
-@Data
+@Getter @Setter @Accessors(chain = true)
 public class DepartmentVO extends Department {
     private static final long serialVersionUID = -362116388664907913L;
 

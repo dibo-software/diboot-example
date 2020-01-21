@@ -1,4 +1,0 @@
-dependencies {
-    // diboot-core-starter 2.x
-    compile("com.diboot:diboot-core-spring-boot-starter:2.0.3")
-}

@@ -1,11 +1,11 @@
-package com.example.entity;
+package com.example.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.diboot.core.entity.BaseEntity;
-import lombok.Data;
+import com.example.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,18 +21,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Role extends BaseEntity {
-    private static final long serialVersionUID = 3701095453152116088L;
+public class RoleVO extends Role {
+    private static final long serialVersionUID = 123L;
 
-    @TableField(exist = false)
-    private Long id;
-
-    @TableId(type=IdType.UUID)
-    private String uid;
-
-    @TableField
-    private String name;
-
-    @TableField
-    private String code;
 }

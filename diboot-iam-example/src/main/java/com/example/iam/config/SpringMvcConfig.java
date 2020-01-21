@@ -1,21 +1,23 @@
-package com.example.config;
+package com.example.iam.config;
 
-import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
-import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Mybatis-Plus配置
- * @author Mazc
+ * Spring MVC配置
+ * @author www.dibo.ltd
  * @version v2.0
- * @date 2019/1/19
+ * @date 2019/11/03
  */
 @Configuration
-@MapperScan(basePackages={"com.example.mapper*"})
-public class MybatisPlusConfig {
+@EnableAutoConfiguration
+@ComponentScan(basePackages={"com.example.iam"})
+@MapperScan(basePackages={"com.example.iam.mapper"})
+public class SpringMvcConfig {
 
     /**
      * Mybatis-plus分页插件
@@ -24,15 +26,6 @@ public class MybatisPlusConfig {
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         return paginationInterceptor;
-    }
-
-    /***
-     * 逻辑删除注入
-     * @return
-     */
-    @Bean
-    public ISqlInjector sqlInjector() {
-        return new DefaultSqlInjector();
     }
 
 }

@@ -1,4 +1,0 @@
-rootProject.name = 'diboot-v2-example'
-include 'diboot-core-example'
-include 'diboot-devtools-example'
-
