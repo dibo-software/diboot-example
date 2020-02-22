@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>com.diboot</groupId>
-    <artifactId>component-file-example</artifactId>
+    <artifactId>diboot-file-example</artifactId>
     <version>2.0.4</version>
     <packaging>jar</packaging>
     <description>diboot file example project</description>
@@ -48,7 +48,7 @@
 
         <dependency>
             <groupId>com.diboot</groupId>
-            <artifactId>diboot-component-file-spring-boot-starter</artifactId>
+            <artifactId>diboot-file-spring-boot-starter</artifactId>
             <version>2.0.4</version>
         </dependency>
 

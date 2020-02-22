@@ -1,14 +1,12 @@
 package com.example.file.excel;
 
-import com.diboot.component.file.excel.listener.FixedHeadExcelListener;
+import com.diboot.file.excel.listener.FixedHeadExcelListener;
 import com.diboot.core.util.BeanUtils;
 import com.diboot.core.util.ContextHelper;
 import com.example.file.entity.Department;
 import com.example.file.service.DepartmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.ContentHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +50,14 @@ public class DepartmentImportListener extends FixedHeadExcelListener<DepartmentE
             Long parentId = 10L;
             department.setOrgId(orgId);
             department.setParentId(parentId);
+
             departmentList.add(department);
+            // 字典被转换为存储值
+            System.out.println(model.getDict());
         }
         //this.uploadFileUuid 上传文件对应的UUID;
         // 保存数据
-        ContextHelper.getBaseServiceByEntity(Department.class).createEntities(departmentList);
+        ContextHelper.getBean(DepartmentService.class).createEntities(departmentList);
     }
 
 }

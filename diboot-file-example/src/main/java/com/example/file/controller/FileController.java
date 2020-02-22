@@ -1,9 +1,9 @@
 package com.example.file.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.diboot.component.file.controller.BaseFileController;
-import com.diboot.component.file.entity.UploadFile;
-import com.diboot.component.file.util.HttpHelper;
+import com.diboot.file.controller.BaseFileController;
+import com.diboot.file.entity.UploadFile;
+import com.diboot.file.util.HttpHelper;
 import com.diboot.core.entity.Dictionary;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;

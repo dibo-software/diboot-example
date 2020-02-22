@@ -1,7 +1,9 @@
 package com.example.file.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.diboot.component.file.excel.BaseExcelModel;
+import com.diboot.file.excel.BaseExcelModel;
+import com.diboot.file.excel.converter.DictConverter;
+import com.diboot.core.binding.annotation.BindDict;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -29,5 +31,12 @@ public class DepartmentExcelModel extends BaseExcelModel {
     @Length(min = 1, max = 10, message = "名称长度不能超过10")
     @ExcelProperty(value = "名称", index = 2)
     private String name;
+
+    /**
+     * 绑定数据字典示例，如 导入显示值“男”转换为存储值“M”
+     */
+    @BindDict(type = "GENDER")
+    @ExcelProperty(value = "字典", index = 3, converter = DictConverter.class)
+    private String dict;
 
 }

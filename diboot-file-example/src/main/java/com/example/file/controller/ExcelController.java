@@ -1,12 +1,12 @@
 package com.example.file.controller;
 
-import com.diboot.component.file.controller.BaseExcelFileController;
-import com.diboot.component.file.controller.BaseFileController;
-import com.diboot.component.file.entity.UploadFile;
-import com.diboot.component.file.excel.listener.FixedHeadExcelListener;
-import com.diboot.component.file.util.ExcelHelper;
-import com.diboot.component.file.util.FileHelper;
-import com.diboot.component.file.util.HttpHelper;
+import com.diboot.file.controller.BaseExcelFileController;
+import com.diboot.file.controller.BaseFileController;
+import com.diboot.file.entity.UploadFile;
+import com.diboot.file.excel.listener.FixedHeadExcelListener;
+import com.diboot.file.util.ExcelHelper;
+import com.diboot.file.util.FileHelper;
+import com.diboot.file.util.HttpHelper;
 import com.diboot.core.exception.BusinessException;
 import com.diboot.core.util.S;
 import com.diboot.core.util.V;
@@ -91,6 +91,7 @@ public class ExcelController extends BaseExcelFileController {
         model.setOrgName("帝博");
         model.setParentName("研发中心");
         model.setName("产品部");
+        model.setDict("M"); //mock字典 导出时转换为显示值
         dataList.add(model);
         return dataList;
     }
