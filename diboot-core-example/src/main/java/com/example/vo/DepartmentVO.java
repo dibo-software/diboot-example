@@ -5,7 +5,6 @@ import com.diboot.core.binding.annotation.BindEntityList;
 import com.diboot.core.binding.annotation.BindField;
 import com.example.entity.Department;
 import com.example.entity.Organization;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

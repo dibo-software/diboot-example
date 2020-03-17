@@ -1,13 +1,13 @@
 package com.example.file.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.diboot.file.controller.BaseFileController;
-import com.diboot.file.entity.UploadFile;
-import com.diboot.file.util.HttpHelper;
 import com.diboot.core.entity.Dictionary;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;
 import com.diboot.core.vo.Status;
+import com.diboot.file.controller.BaseFileController;
+import com.diboot.file.entity.UploadFile;
+import com.diboot.file.util.HttpHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,6 +55,12 @@ public class FileController extends BaseFileController {
     public JsonResult getVOList(UploadFile uploadFile, Pagination pagination, HttpServletRequest request) throws Exception{
         QueryWrapper<UploadFile> queryWrapper = super.buildQueryWrapper(uploadFile, request);
         return super.getEntityListWithPaging(queryWrapper, pagination);
+    }
+
+    @Override
+    protected <T> UploadFile saveFile(MultipartFile file, Class<T> entityClass, HttpServletRequest request) throws Exception {
+        // 自定义文件存储
+        return super.saveFile(file, entityClass, request);
     }
 
 }

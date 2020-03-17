@@ -8,7 +8,6 @@ import com.example.entity.Department;
 import com.example.entity.Organization;
 import com.example.entity.Role;
 import com.example.entity.User;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

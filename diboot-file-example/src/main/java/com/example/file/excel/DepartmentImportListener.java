@@ -1,14 +1,15 @@
 package com.example.file.excel;
 
-import com.diboot.file.excel.listener.FixedHeadExcelListener;
 import com.diboot.core.util.BeanUtils;
 import com.diboot.core.util.ContextHelper;
+import com.diboot.file.excel.listener.FixedHeadExcelListener;
 import com.example.file.entity.Department;
 import com.example.file.service.DepartmentService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <Description>
@@ -25,7 +26,7 @@ public class DepartmentImportListener extends FixedHeadExcelListener<DepartmentE
      * @param dataList
      */
     @Override
-    protected void additionalValidate(List<DepartmentExcelModel> dataList) {
+    protected void additionalValidate(List<DepartmentExcelModel> dataList, Map<String, Object> requestParams) {
         dataList.stream().forEach(data->{
             // 示例校验单位是否匹配
             //if(!"帝博".equals(data.getOrgName())){
@@ -39,7 +40,7 @@ public class DepartmentImportListener extends FixedHeadExcelListener<DepartmentE
      * @param dataList
      */
     @Override
-    protected void saveData(List<DepartmentExcelModel> dataList) {
+    protected void saveData(List<DepartmentExcelModel> dataList, Map<String, Object> paramsMap) {
         // 转换数据
         List<Department> departmentList = new ArrayList<>();
         for(DepartmentExcelModel model : getDataList()){

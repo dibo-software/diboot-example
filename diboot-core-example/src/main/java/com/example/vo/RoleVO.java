@@ -1,16 +1,9 @@
 package com.example.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.diboot.core.entity.BaseEntity;
 import com.example.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
 
 /**
  * 角色Entity

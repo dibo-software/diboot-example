@@ -1,17 +1,12 @@
 package com.example.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.diboot.core.entity.BaseExtEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Department部门
@@ -22,7 +17,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Department extends BaseExtEntity {
+public class Department extends BaseCustomEntity {
     private static final long serialVersionUID = -4849732665419794547L;
 
     @TableField

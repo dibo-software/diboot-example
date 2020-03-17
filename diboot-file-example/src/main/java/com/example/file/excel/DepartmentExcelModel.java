@@ -1,9 +1,9 @@
 package com.example.file.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.diboot.core.binding.annotation.BindDict;
 import com.diboot.file.excel.BaseExcelModel;
 import com.diboot.file.excel.converter.DictConverter;
-import com.diboot.core.binding.annotation.BindDict;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

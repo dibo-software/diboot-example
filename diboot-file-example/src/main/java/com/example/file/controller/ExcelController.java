@@ -1,30 +1,22 @@
 package com.example.file.controller;
 
+import com.diboot.core.vo.JsonResult;
 import com.diboot.file.controller.BaseExcelFileController;
-import com.diboot.file.controller.BaseFileController;
-import com.diboot.file.entity.UploadFile;
 import com.diboot.file.excel.listener.FixedHeadExcelListener;
 import com.diboot.file.util.ExcelHelper;
 import com.diboot.file.util.FileHelper;
 import com.diboot.file.util.HttpHelper;
-import com.diboot.core.exception.BusinessException;
-import com.diboot.core.util.S;
-import com.diboot.core.util.V;
-import com.diboot.core.vo.JsonResult;
-import com.diboot.core.vo.Pagination;
-import com.diboot.core.vo.Status;
 import com.example.file.entity.Department;
 import com.example.file.excel.DepartmentExcelModel;
 import com.example.file.excel.DepartmentImportListener;
-import com.example.file.service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Department相关Controller示例: 继承自BaseCrudRestController，自定义接口

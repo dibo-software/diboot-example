@@ -1,7 +1,6 @@
 package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.diboot.core.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Organization extends BaseEntity {
+public class Organization extends BaseCustomEntity {
     private static final long serialVersionUID = -5889309041570465909L;
 
     @TableField
