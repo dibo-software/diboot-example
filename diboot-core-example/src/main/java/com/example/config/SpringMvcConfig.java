@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.charset.Charset;
@@ -29,6 +30,7 @@ import java.util.List;
  * @date 2019/1/19
  */
 @Configuration
+@EnableTransactionManagement
 @EnableAutoConfiguration
 @ComponentScan(basePackages={"com.example"})
 @MapperScan(basePackages={"com.example.mapper"})
