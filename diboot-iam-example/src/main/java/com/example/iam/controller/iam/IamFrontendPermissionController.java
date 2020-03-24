@@ -33,7 +33,7 @@ import java.util.List;
  */
 /**
 * 前端资源权限相关Controller
-* @author mazc@dibo.ltd
+* @author www.dibo.ltd
 * @version 1.0.1
 * @date 2020-03-18
 * Copyright © dibo.ltd

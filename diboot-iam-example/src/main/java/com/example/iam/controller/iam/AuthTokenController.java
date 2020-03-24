@@ -28,7 +28,7 @@ import java.util.Map;
  */
 /**
 * IAM身份认证/申请Token接口
-* @author mazc@dibo.ltd
+* @author www.dibo.ltd
 * @version 1.0.1
 * @date 2020-03-18
 * Copyright © dibo.ltd

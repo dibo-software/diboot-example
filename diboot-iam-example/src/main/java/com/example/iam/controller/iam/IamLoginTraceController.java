@@ -25,7 +25,7 @@ import java.util.List;
  */
 /**
 * 登录日志
-* @author mazc@dibo.ltd
+* @author www.dibo.ltd
 * @version 1.0.1
 * @date 2020-03-18
 * Copyright © dibo.ltd

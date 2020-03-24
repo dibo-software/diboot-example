@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 /**
 * 自定义通用CRUD父类RestController
-* @author mazc@dibo.ltd
+* @author www.dibo.ltd
 * @version 1.0.1
 * @date 2020-03-18
 * Copyright © dibo.ltd
