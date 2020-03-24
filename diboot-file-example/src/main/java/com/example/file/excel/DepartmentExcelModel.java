@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * excel列映射文件，支持validation校验
- * @author mazc@dibo.ltd
+ * @author www.dibo.ltd
  * @version v2.0
  * @date 2020/02/19
  */

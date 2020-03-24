@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Spring MVC配置
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/11/03
  */
 @Configuration
+@EnableTransactionManagement
 @EnableAutoConfiguration
 @ComponentScan(basePackages={"com.example"})
 @MapperScan(basePackages={"com.example.mapper"})
