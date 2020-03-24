@@ -1,18 +1,19 @@
 package com.example.controller;
 
+import com.diboot.core.entity.Dictionary;
+import com.diboot.core.service.DictionaryService;
 import com.diboot.core.util.V;
+import com.diboot.core.vo.DictionaryVO;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.KeyValue;
 import com.diboot.core.vo.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.diboot.core.entity.Dictionary;
-import com.diboot.core.vo.DictionaryVO;
-import com.diboot.core.service.DictionaryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**

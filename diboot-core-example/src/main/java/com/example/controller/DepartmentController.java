@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.exception.BusinessException;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.JsonResult;
@@ -14,7 +13,9 @@ import com.example.service.DepartmentService;
 import com.example.vo.DepartmentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/department")
 @Slf4j
-public class DepartmentController extends BaseCrudRestController<Department, DepartmentVO> {
+public class DepartmentController extends BaseCustomCrudRestController<Department, DepartmentVO> {
 
     @Autowired
     private DepartmentService departmentService;

@@ -1,16 +1,9 @@
 package com.example.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.diboot.core.entity.BaseEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
 
 /**
  * 角色Entity
@@ -21,14 +14,14 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Role extends BaseEntity {
+public class Role extends BaseCustomEntity {
     private static final long serialVersionUID = 3701095453152116088L;
 
-    @TableField(exist = false)
-    private Long id;
+    //@TableField(exist = false)
+    //private Long id;
 
-    @TableId(type=IdType.UUID)
-    private String uid;
+    //@TableId(type=IdType.UUID)
+    //private String uid;
 
     @TableField
     private String name;

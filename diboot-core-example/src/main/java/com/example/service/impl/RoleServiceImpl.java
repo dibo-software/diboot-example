@@ -1,6 +1,5 @@
 package com.example.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.diboot.core.service.impl.BaseServiceImpl;
 import com.example.entity.Role;
 import com.example.mapper.RoleMapper;

@@ -1,8 +1,6 @@
 package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.diboot.core.entity.BaseEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,7 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class User extends BaseEntity {
+public class User extends BaseCustomEntity {
     private static final long serialVersionUID = 3050761344045195972L;
 
     @TableField

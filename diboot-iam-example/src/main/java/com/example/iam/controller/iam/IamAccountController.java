@@ -8,6 +8,7 @@ import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
 import com.diboot.iam.vo.IamAccountVO;
+import com.example.iam.controller.BaseCrudMappingRestController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.example.iam.controller.BaseCrudMappingRestController;
 
 /**
  * 建议启用devtools，该文件将由diboot-devtools自动生成

@@ -1,6 +1,7 @@
-package com.example.entity;
+package com.example.file.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.diboot.core.entity.BaseExtEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Department extends BaseCustomEntity {
+public class Department extends BaseExtEntity {
     private static final long serialVersionUID = -4849732665419794547L;
 
     @TableField

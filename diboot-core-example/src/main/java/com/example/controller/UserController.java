@@ -1,11 +1,8 @@
 package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.diboot.core.controller.BaseCrudRestController;
-import com.diboot.core.service.BaseService;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;
-import com.diboot.core.vo.Status;
 import com.example.dto.UserDto;
 import com.example.entity.User;
 import com.example.service.UserService;
