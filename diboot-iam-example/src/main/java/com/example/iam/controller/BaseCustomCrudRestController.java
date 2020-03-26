@@ -13,23 +13,25 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.example.file.handler;
+package com.example.iam.controller;
 
-import com.diboot.core.handler.DefaultExceptionHandler;
+import com.diboot.core.controller.BaseCrudRestController;
+import com.diboot.core.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+
+import java.io.Serializable;
 
 /**
- * 启用devtools，该文件将由diboot-devtools自动生成
+ * 建议启用devtools，该文件由diboot-devtools自动生成
  */
 /**
- * 通用异常处理类
- * @author www.dibo.ltd
- * @version v2.0
- * @date 2019/7/19
- */
-@ControllerAdvice
+* 自定义通用CRUD父类RestController
+* @author www.dibo.ltd
+* @version 1.0.1
+* @date 2020-03-18
+* Copyright © dibo.ltd
+*/
 @Slf4j
-public class GeneralExceptionHandler extends DefaultExceptionHandler{
+public class BaseCustomCrudRestController<E extends BaseEntity, VO extends Serializable> extends BaseCrudRestController {
 
 }
