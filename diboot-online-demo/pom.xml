@@ -56,15 +56,12 @@
 			<version>1.6.2</version>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>com.diboot</groupId>-->
-<!--			<artifactId>diboot-devtools-spring-boot-starter</artifactId>-->
-<!--			<version>2.0.5</version>-->
-<!--			<scope>system</scope>-->
-<!--			<systemPath>${project.basedir}/lib/diboot-devtools-spring-boot-starter-2.0.5.jar</systemPath>-->
-<!--		</dependency>-->
-
-
+		<dependency>
+			<groupId>com.diboot</groupId>
+			<artifactId>diboot-devtools-spring-boot-starter</artifactId>
+			<version>2.0.5</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
