@@ -26,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -43,7 +42,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionary")
 @Slf4j
-public class DictionaryController extends BaseCrudRestController<Dictionary, DictionaryVO> {
+public class DictionaryController extends BaseCrudRestController<Dictionary> {
     @Autowired
     private DictionaryService dictionaryService;
 
@@ -56,8 +55,8 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     * @throws Exception
     */
     @GetMapping("/list")
-    public JsonResult getViewObjectListMapping(Dictionary entity, Pagination pagination, HttpServletRequest request) throws Exception{
-        QueryWrapper<Dictionary> queryWrapper = super.buildQueryWrapper(entity, request);
+    public JsonResult getViewObjectListMapping(Dictionary entity, Pagination pagination) throws Exception{
+        QueryWrapper<Dictionary> queryWrapper = super.buildQueryWrapper(entity);
         List<DictionaryVO> voList = dictionaryService.getViewObjectList(queryWrapper, pagination, DictionaryVO.class);
         return JsonResult.OK(voList).bindPagination(pagination);
     }
@@ -69,8 +68,8 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     * @throws Exception
     */
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id") Long id, HttpServletRequest request) throws Exception{
-        return super.getViewObject(id, request);
+    public JsonResult getViewObjectMapping(@PathVariable("id") Long id) throws Exception{
+        return super.getViewObject(id, DictionaryVO.class);
     }
 
     /**
@@ -80,7 +79,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     * @throws Exception
     */
     @PostMapping("/")
-    public JsonResult createEntityMapping(@RequestBody @Valid DictionaryVO entityVO, HttpServletRequest request) throws Exception {
+    public JsonResult createEntityMapping(@RequestBody @Valid DictionaryVO entityVO) throws Exception {
         boolean success = dictionaryService.createDictAndChildren(entityVO);
         if(!success){
             return JsonResult.FAIL_OPERATION("保存数据字典失败！");
@@ -95,7 +94,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     * @throws Exception
     */
     @PutMapping("/{id}")
-    public JsonResult updateEntityMapping(@PathVariable("id")Long id, @Valid @RequestBody DictionaryVO entityVO, HttpServletRequest request) throws Exception {
+    public JsonResult updateEntityMapping(@PathVariable("id")Long id, @Valid @RequestBody DictionaryVO entityVO) throws Exception {
         entityVO.setId(id);
         boolean success = dictionaryService.updateDictAndChildren(entityVO);
         if(!success){
@@ -111,7 +110,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     * @throws Exception
     */
     @DeleteMapping("/{id}")
-    public JsonResult deleteEntityMapping(@PathVariable("id")Long id, HttpServletRequest request) throws Exception {
+    public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         boolean success = dictionaryService.deleteDictAndChildren(id);
         if(!success){
             return JsonResult.FAIL_OPERATION("删除数据字典失败！");
@@ -138,11 +137,10 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     * 校验类型编码是否重复
     * @param id
     * @param type
-    * @param request
     * @return
     */
     @GetMapping("/checkTypeDuplicate")
-    public JsonResult checkTypeDuplicate(@RequestParam(required = false) Long id, @RequestParam String type, HttpServletRequest request) {
+    public JsonResult checkTypeDuplicate(@RequestParam(required = false) Long id, @RequestParam String type) {
         if (V.notEmpty(type)) {
             LambdaQueryWrapper<Dictionary> wrapper = new LambdaQueryWrapper();
             wrapper.select(Dictionary::getId).eq(Dictionary::getType, type).eq(Dictionary::getParentId, 0);

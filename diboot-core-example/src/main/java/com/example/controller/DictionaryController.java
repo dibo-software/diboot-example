@@ -16,14 +16,9 @@
 package com.example.controller;
 
 import com.diboot.core.entity.Dictionary;
-import com.diboot.core.service.DictionaryService;
-import com.diboot.core.util.V;
-import com.diboot.core.vo.DictionaryVO;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.KeyValue;
-import com.diboot.core.vo.Status;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,10 +39,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionary")
 @Slf4j
-public class DictionaryController extends BaseCrudMappingRestController<Dictionary, DictionaryVO> {
-
-    @Autowired
-    private DictionaryService dictionaryService;
+public class DictionaryController extends BaseCustomCrudRestController<Dictionary> {
 
     /***
      * 获取数据字典数据列表，访问测试: http://localhost:8080/example/dictionary/items/GENDER
@@ -57,9 +49,6 @@ public class DictionaryController extends BaseCrudMappingRestController<Dictiona
      */
     @GetMapping("/items/{type}")
     public JsonResult getItems(@PathVariable("type")String type) throws Exception{
-        if (V.isEmpty(type)){
-            return new JsonResult(Status.FAIL_INVALID_PARAM);
-        }
         List<KeyValue> itemsList = dictionaryService.getKeyValueList(type);
         return new JsonResult(itemsList);
     }

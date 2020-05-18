@@ -15,52 +15,80 @@
  */
 package com.example.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;
-import com.example.dto.UserDto;
 import com.example.entity.User;
-import com.example.service.UserService;
 import com.example.vo.UserVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.validation.Valid;
+import java.io.Serializable;
 
 /**
- * User相关Controller
+ * User相关常规CRUD Controller
  * @author www.dibo.ltd
  * @version v2.0
  * @date 2019/7/19
  */
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseCrudMappingRestController<User, UserVO> {
-
-    @Autowired
-    private UserService userService;
+public class UserController extends BaseCustomCrudRestController<User> {
 
     /***
-     * 查询VO的分页数据: ：此例同时示例DTO自动绑定转换为QueryWrapper。
+     * 查询ViewObject的分页数据
      * <p>
-     * url参数示例: /listWithDto?gender=M&orderBy=username
+     * url请求参数示例: /list?field=abc&pageSize=20&pageIndex=1&orderBy=id
      * </p>
      * @return
      * @throws Exception
      */
-    @GetMapping("/listWithDto")
-    public JsonResult getVOListWithDTO(UserDto userDto, Pagination pagination, HttpServletRequest request) throws Exception{
-        // DTO转换为QueryWrapper，若无@BindQuery注解默认映射为等于=条件，有注解映射为注解条件。
-        QueryWrapper<User> queryWrapper = super.buildQueryWrapper(userDto, request);
-        // 查询当前页的Entity主表数据
-        List entityList = userService.getEntityList(queryWrapper, pagination);
-        // 自动转换VO中注解绑定的关联
-        List<UserVO> voList = super.convertToVoAndBindRelations(entityList, UserVO.class);
-        // 返回结果
-        return new JsonResult(voList).bindPagination(pagination);
+    @GetMapping("/list")
+    public JsonResult getViewObjectListWithMapping(User entity, Pagination pagination) throws Exception{
+        return super.getViewObjectList(entity, pagination, UserVO.class);
+    }
+
+    /***
+     * 根据资源id查询ViewObject
+     * @param id ID
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/{id}")
+    public JsonResult getViewObjectWithMapping(@PathVariable("id") Serializable id) throws Exception{
+        return super.getViewObject(id, UserVO.class);
+    }
+
+    /***
+     * 创建资源对象
+     * @param entity
+     * @return JsonResult
+     * @throws Exception
+     */
+    @PostMapping("/")
+    public JsonResult createEntityWithMapping(@Valid @RequestBody User entity) throws Exception {
+        return super.createEntity(entity);
+    }
+
+    /***
+     * 根据ID更新资源对象
+     * @param entity
+     * @return JsonResult
+     * @throws Exception
+     */
+    @PutMapping("/{id}")
+    public JsonResult updateEntityWithMapping(@PathVariable("id")Serializable id, @Valid @RequestBody User entity) throws Exception {
+        return super.updateEntity(id, entity);
+    }
+
+    /***
+     * 根据id删除资源对象
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @DeleteMapping("/{id}")
+    public JsonResult deleteEntityWithMapping(@PathVariable("id")Serializable id) throws Exception {
+        return super.deleteEntity(id);
     }
 
 }

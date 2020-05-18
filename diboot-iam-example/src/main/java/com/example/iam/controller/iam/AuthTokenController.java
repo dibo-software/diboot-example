@@ -70,7 +70,7 @@ public class AuthTokenController extends BaseController {
     * @throws Exception
     */
     @PostMapping("/auth/login")
-    public JsonResult login(@RequestBody PwdCredential credential, HttpServletRequest request) throws Exception{
+    public JsonResult login(@RequestBody PwdCredential credential) throws Exception{
         // 验证码校验
         if (!CaptchaUtil.ver(credential.getCaptcha(), request)) {
             CaptchaUtil.clear(request);
@@ -109,12 +109,11 @@ public class AuthTokenController extends BaseController {
 
     /***
     * 心跳接口
-    * @param request
     * @return
     * @throws Exception
     */
     @PostMapping("/iam/ping")
-    public JsonResult ping(HttpServletRequest request) throws Exception{
+    public JsonResult ping() throws Exception{
         return JsonResult.OK();
     }
 }

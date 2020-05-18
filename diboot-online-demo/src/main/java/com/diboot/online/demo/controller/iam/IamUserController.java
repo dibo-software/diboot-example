@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.diboot.core.controller.BaseCrudRestController;
-import com.diboot.core.service.DictionaryService;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.*;
 import com.diboot.iam.annotation.BindPermission;
@@ -42,10 +41,8 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/iam/user")
 @BindPermission(name = "用户")
-public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO> {
+public class IamUserController extends BaseCrudRestController<IamUser> {
     private static final Logger log = LoggerFactory.getLogger(IamUserController.class);
-    @Autowired
-    private DictionaryService dictionaryService;
 
     @Autowired
     private IamUserService iamUserService;
@@ -66,8 +63,8 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     */
     @BindPermission(name = "查看列表", code = Operation.LIST)
     @GetMapping("/list")
-    public JsonResult getViewObjectListMapping(IamUser entity, Pagination pagination, HttpServletRequest request) throws Exception{
-        return super.getViewObjectList(entity, pagination, request);
+    public JsonResult getViewObjectListMapping(IamUser entity, Pagination pagination) throws Exception{
+        return super.getViewObjectList(entity, pagination, IamUserVO.class);
     }
 
     /***
@@ -78,20 +75,19 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     */
     @BindPermission(name = "查看详情", code = Operation.DETAIL)
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id")Long id, HttpServletRequest request) throws Exception{
-        return super.getViewObject(id, request);
+    public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
+        return super.getViewObject(id, IamUserVO.class);
     }
 
     /***
     * 新建用户、账号和用户角色关联列表
     * @param iamUserAccountDTO
-    * @param request
     * @return
     * @throws Exception
     */
     @PostMapping("/")
     @BindPermission(name = "新建", code = Operation.CREATE)
-    public JsonResult createEntityMapping(@Valid @RequestBody IamUserAccountDTO iamUserAccountDTO, HttpServletRequest request) throws Exception {
+    public JsonResult createEntityMapping(@Valid @RequestBody IamUserAccountDTO iamUserAccountDTO) throws Exception {
         iamUserService.createUserAndAccount(iamUserAccountDTO);
         return JsonResult.OK();
     }
@@ -104,7 +100,7 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     */
     @BindPermission(name = "更新", code = Operation.UPDATE)
     @PutMapping("/{id}")
-    public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamUserAccountDTO iamUserAccountDTO, HttpServletRequest request) throws Exception {
+    public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamUserAccountDTO iamUserAccountDTO) throws Exception {
         iamUserService.updateUserAndAccount(iamUserAccountDTO);
         return JsonResult.OK();
     }
@@ -117,7 +113,7 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     */
     @BindPermission(name = "删除", code = Operation.DELETE)
     @DeleteMapping("/{id}")
-    public JsonResult deleteEntityMapping(@PathVariable("id")Long id, HttpServletRequest request) throws Exception {
+    public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         iamUserService.deleteUserAndAccount(id);
         return JsonResult.OK();
     }
@@ -146,12 +142,11 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     /***
     * 获取用户名
     * @param id
-    * @param request
     * @return
     * @throws Exception
     */
     @GetMapping("/getUsername/{id}")
-    public JsonResult getUsername(@PathVariable("id")Long id, HttpServletRequest request) throws Exception{
+    public JsonResult getUsername(@PathVariable("id")Long id) throws Exception{
         IamAccount account = iamAccountService.getSingleEntity(
             Wrappers.<IamAccount>lambdaQuery()
             .eq(IamAccount::getUserType, IamUser.class.getSimpleName())
@@ -166,8 +161,8 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     * @throws Exception
     */
     @GetMapping("/getUserList/{orgId}")
-    public JsonResult getUserList(@PathVariable("orgId") Long orgId, IamUser iamUser, Pagination pagination, HttpServletRequest request) throws Exception {
-        QueryWrapper<IamUser> wrapper = super.buildQueryWrapper(iamUser, request);
+    public JsonResult getUserList(@PathVariable("orgId") Long orgId, IamUser iamUser, Pagination pagination) throws Exception {
+        QueryWrapper<IamUser> wrapper = super.buildQueryWrapper(iamUser);
         if (orgId != null && !V.equals(orgId, 0L)) {
             wrapper.lambda().eq(IamUser::getOrgId, orgId);
         }
@@ -191,13 +186,12 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     /**
     * 更新当前用户信息
     * @param baseUserInfoDTO
-    * @param request
     * @return
     * @throws Exception
     */
     @BindPermission(name = "更新当前用户信息", code = "updateCurrentUserInfo")
     @PostMapping("/updateCurrentUserInfo")
-    public JsonResult updateCurrentUserInfo(@Valid @RequestBody BaseUserInfoDTO baseUserInfoDTO, HttpServletRequest request) throws Exception{
+    public JsonResult updateCurrentUserInfo(@Valid @RequestBody BaseUserInfoDTO baseUserInfoDTO) throws Exception{
         IamUser iamUser = IamSecurityUtils.getCurrentUser();
         IamUser newIamUser = iamUserService.getEntity(iamUser.getId());
         newIamUser.setRealname(baseUserInfoDTO.getRealname())
@@ -214,13 +208,12 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     /***
     * 更改密码
     * @param changePwdDTO
-    * @param request
     * @return
     * @throws Exception
     */
     @BindPermission(name = "更改密码", code = "changePwd")
     @PostMapping("/changePwd")
-    public JsonResult changePwd(@Valid @RequestBody ChangePwdDTO changePwdDTO, HttpServletRequest request) throws Exception{
+    public JsonResult changePwd(@Valid @RequestBody ChangePwdDTO changePwdDTO) throws Exception{
         IamUser iamUser = IamSecurityUtils.getCurrentUser();
         IamAccount iamAccount = iamAccountService.getSingleEntity(
             Wrappers.<IamAccount>lambdaQuery()
@@ -238,11 +231,10 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     * 校验用户名是否重复
     * @param id
     * @param username
-    * @param request
     * @return
     */
     @GetMapping("/checkUsernameDuplicate")
-    public JsonResult checkUsernameDuplicate(@RequestParam(required = false) Long id, @RequestParam String username, HttpServletRequest request) {
+    public JsonResult checkUsernameDuplicate(@RequestParam(required = false) Long id, @RequestParam String username) {
         if (V.notEmpty(username)) {
             LambdaQueryWrapper<IamAccount> wrapper = Wrappers.<IamAccount>lambdaQuery()
                 .select(IamAccount::getUserId)
@@ -262,11 +254,10 @@ public class IamUserController extends BaseCrudRestController<IamUser, IamUserVO
     * 校验用户编号是否重复
     * @param id
     * @param userNum
-    * @param request
     * @return
     */
     @GetMapping("/checkUserNumDuplicate")
-    public JsonResult checkUserNumDuplicate(@RequestParam(required = false) Long id, @RequestParam String userNum, HttpServletRequest request) {
+    public JsonResult checkUserNumDuplicate(@RequestParam(required = false) Long id, @RequestParam String userNum) {
         if (V.notEmpty(userNum)) {
             LambdaQueryWrapper<IamUser> wrapper = Wrappers.<IamUser>lambdaQuery()
                 .select(IamUser::getUserNum)

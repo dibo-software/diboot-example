@@ -36,7 +36,7 @@ public class DepartmentVO extends Department {
     private static final long serialVersionUID = -362116388664907913L;
 
     // 直接关联Entity中的某字段
-    @BindField(entity = Organization.class, field = "name", condition = "this.org_id=id AND name='百度'")
+    @BindField(entity = Organization.class, field = "name", condition = "this.org_id=id")
     private String orgName;
 
     // 直接关联Entity

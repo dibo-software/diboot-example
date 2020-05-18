@@ -54,7 +54,7 @@ public class AuthTokenController extends BaseController {
     * @throws Exception
     */
     @PostMapping("/auth/login")
-    public JsonResult login(@RequestBody PwdCredential credential, HttpServletRequest request) throws Exception{
+    public JsonResult login(@RequestBody PwdCredential credential) throws Exception{
         // 验证码校验
         if (!CaptchaUtil.ver(credential.getCaptcha(), request)) {
             CaptchaUtil.clear(request);

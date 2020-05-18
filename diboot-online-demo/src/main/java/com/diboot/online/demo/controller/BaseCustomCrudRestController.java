@@ -13,7 +13,7 @@ import java.io.Serializable;
 * @date 2020-03-24
 * Copyright © diboot.com
 */
-public class BaseCustomCrudRestController<E extends BaseEntity, VO extends Serializable> extends BaseCrudRestController {
+public class BaseCustomCrudRestController<E extends BaseEntity> extends BaseCrudRestController {
     private static final Logger log = LoggerFactory.getLogger(BaseCustomCrudRestController.class);
 
 }

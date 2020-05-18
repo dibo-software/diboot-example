@@ -71,7 +71,7 @@ public class SpringMvcConfig implements WebMvcConfigurer{
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         // 设置fastjson的序列化参数：禁用循环依赖检测，数据兼容浏览器端（避免JS端Long精度丢失问题）
         fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect,
-                SerializerFeature.BrowserCompatible);
+                SerializerFeature.BrowserCompatible); //SerializerFeature.WriteMapNullValue
         fastJsonConfig.setDateFormat(D.FORMAT_DATETIME_Y4MDHM);
         converter.setFastJsonConfig(fastJsonConfig);
 

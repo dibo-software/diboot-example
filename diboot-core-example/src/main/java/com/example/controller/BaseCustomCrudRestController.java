@@ -19,8 +19,6 @@ import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.Serializable;
-
 /**
  * 启用devtools，该文件将由diboot-devtools自动生成
  */
@@ -32,6 +30,6 @@ import java.io.Serializable;
 * Copyright © dibo.ltd
 */
 @Slf4j
-public class BaseCustomCrudRestController<E extends BaseEntity, VO extends Serializable> extends BaseCrudRestController {
+public class BaseCustomCrudRestController<E extends BaseEntity> extends BaseCrudRestController {
 
 }

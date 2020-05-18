@@ -32,6 +32,7 @@ import java.util.Date;
  */
 @Getter @Setter @Accessors(chain = true)
 public class UserDto extends User{
+    private static final long serialVersionUID = 7831455557134155439L;
 
     @BindQuery(comparison = Comparison.STARTSWITH)
     private String username;
