@@ -21,6 +21,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
+ * 启用devtools，该文件将由diboot-devtools自动生成
+ */
+/**
  * 用户Entity
  * @author www.dibo.ltd
  * @version v2.0
@@ -29,6 +32,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
+//@TableName(autoResultMap = true)
 public class User extends BaseCustomEntity {
     private static final long serialVersionUID = 3050761344045195972L;
 
@@ -40,5 +44,8 @@ public class User extends BaseCustomEntity {
 
     @TableField
     private String gender;
+
+    //@TableField(typeHandler = FastjsonTypeHandler.class)
+    //private List<String> contents;
 
 }

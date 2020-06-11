@@ -3,11 +3,11 @@ package com.diboot.online.demo.controller.iam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-
 import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.util.BeanUtils;
 import com.diboot.core.util.V;
-import com.diboot.core.vo.*;
+import com.diboot.core.vo.JsonResult;
+import com.diboot.core.vo.KeyValue;
 import com.diboot.iam.annotation.BindPermission;
 import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.annotation.process.ApiPermissionCache;
@@ -17,6 +17,8 @@ import com.diboot.iam.entity.IamFrontendPermission;
 import com.diboot.iam.service.IamFrontendPermissionService;
 import com.diboot.iam.vo.IamFrontendPermissionListVO;
 import com.diboot.iam.vo.IamFrontendPermissionVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +26,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
 * 前端资源权限相关Controller

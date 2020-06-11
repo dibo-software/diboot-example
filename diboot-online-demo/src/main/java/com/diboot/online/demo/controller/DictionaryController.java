@@ -2,16 +2,16 @@ package com.diboot.online.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.web.bind.annotation.*;
-
+import com.diboot.core.controller.BaseCrudRestController;
+import com.diboot.core.entity.Dictionary;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.*;
-import com.diboot.core.entity.Dictionary;
-import com.diboot.core.controller.BaseCrudRestController;
-import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.annotation.BindPermission;
+import com.diboot.iam.annotation.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 

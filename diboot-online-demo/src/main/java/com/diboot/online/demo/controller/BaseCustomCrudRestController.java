@@ -4,7 +4,6 @@ import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.Serializable;
 
 /**
 * 自定义通用CRUD父类RestController

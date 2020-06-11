@@ -15,28 +15,16 @@
  */
 package com.example.config;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.diboot.core.config.Cons;
-import com.diboot.core.util.D;
 import com.diboot.core.util.DateConverter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 /***
  * Spring配置文件
@@ -60,7 +48,18 @@ public class SpringMvcConfig implements WebMvcConfigurer{
         return paginationInterceptor;
     }
 
+    /**
+     * String-Date类型转换
+     * @param registry
+     */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+       registry.addConverter(new DateConverter());
+    }
+
+    /*
     @Bean
+    @ConditionalOnMissingBean(HttpMessageConverters.class)
     public HttpMessageConverters fastJsonHttpMessageConverters() {
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         converter.setDefaultCharset(Charset.forName(Cons.CHARSET_UTF8));
@@ -71,17 +70,11 @@ public class SpringMvcConfig implements WebMvcConfigurer{
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         // 设置fastjson的序列化参数：禁用循环依赖检测，数据兼容浏览器端（避免JS端Long精度丢失问题）
         fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect,
-                SerializerFeature.BrowserCompatible); //SerializerFeature.WriteMapNullValue
-        fastJsonConfig.setDateFormat(D.FORMAT_DATETIME_Y4MDHM);
+                SerializerFeature.BrowserCompatible);
         converter.setFastJsonConfig(fastJsonConfig);
 
         HttpMessageConverter<?> httpMsgConverter = converter;
         return new HttpMessageConverters(httpMsgConverter);
-    }
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-       registry.addConverter(new DateConverter());
-    }
+    }*/
 
 }

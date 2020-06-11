@@ -1,12 +1,16 @@
 package com.diboot.online.demo.controller.iam;
 
 import com.diboot.core.controller.BaseCrudRestController;
-import com.diboot.core.vo.*;
+import com.diboot.core.vo.JsonResult;
+import com.diboot.core.vo.KeyValue;
+import com.diboot.core.vo.Pagination;
 import com.diboot.iam.annotation.BindPermission;
 import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.config.Cons;
 import com.diboot.iam.entity.IamLoginTrace;
 import com.diboot.iam.vo.IamLoginTraceVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
 * 登录日志

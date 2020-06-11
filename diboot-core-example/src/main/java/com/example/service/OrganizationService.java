@@ -19,6 +19,9 @@ import com.diboot.core.service.BaseService;
 import com.example.entity.Organization;
 
 /**
+ * 启用devtools，该文件将由diboot-devtools自动生成
+ */
+/**
  * 单位相关Service
  * @author www.dibo.ltd
  * @version v2.0

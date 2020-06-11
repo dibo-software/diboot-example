@@ -19,6 +19,9 @@ import com.diboot.core.mapper.BaseCrudMapper;
 import com.example.entity.Role;
 
 /**
+ * 启用devtools，该文件将由diboot-devtools自动生成
+ */
+/**
  * 角色Mapper
  * @author www.dibo.ltd
  * @version 2018/12/22

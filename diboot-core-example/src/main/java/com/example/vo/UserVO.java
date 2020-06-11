@@ -15,10 +15,7 @@
  */
 package com.example.vo;
 
-import com.diboot.core.binding.annotation.BindDict;
-import com.diboot.core.binding.annotation.BindEntity;
-import com.diboot.core.binding.annotation.BindEntityList;
-import com.diboot.core.binding.annotation.BindField;
+import com.diboot.core.binding.annotation.*;
 import com.example.entity.Department;
 import com.example.entity.Organization;
 import com.example.entity.Role;
@@ -29,6 +26,9 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
+/**
+ * 启用devtools，该文件将由diboot-devtools自动生成
+ */
 /**
  * @author www.dibo.ltd
  * @version v2.0
@@ -61,5 +61,9 @@ public class UserVO extends User {
     // 支持通过中间表的多-多Entity实体关联
     @BindEntityList(entity = Role.class, condition="this.id=user_role.user_id AND user_role.role_id=id")
     private List<Role> roleList;
+
+    // 支持通过中间表的多-多关联Entity单字段集合
+    @BindFieldList(entity = Role.class, field = "code", condition="this.id=user_role.user_id AND user_role.role_id=id")
+    private List<String> roleCodes;
 
 }

@@ -1,8 +1,8 @@
 package com.diboot.online.demo.controller.iam;
 
 import com.diboot.core.controller.BaseController;
+import com.diboot.core.vo.JsonResult;
 import com.diboot.iam.annotation.BindPermission;
-import com.diboot.core.vo.*;
 import com.diboot.iam.auth.AuthServiceFactory;
 import com.diboot.iam.config.Cons;
 import com.diboot.iam.dto.PwdCredential;
@@ -10,6 +10,9 @@ import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
 import com.diboot.iam.vo.IamRoleVO;
+import com.wf.captcha.utils.CaptchaUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.wf.captcha.utils.CaptchaUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
 * IAM身份认证/申请Token接口

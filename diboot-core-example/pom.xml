@@ -19,16 +19,16 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <springboot.version>2.2.4.RELEASE</springboot.version>
+        <springboot.version>2.3.0.RELEASE</springboot.version>
     </properties>
 
     <dependencies>
-        <!-- 编译需要的依赖 -->
+        <!-- 编译需要的依赖
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

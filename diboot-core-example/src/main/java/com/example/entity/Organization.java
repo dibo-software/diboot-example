@@ -20,6 +20,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * 启用devtools，该文件将由diboot-devtools自动生成
+ */
+/**
  * 单位Entity
  * @author www.dibo.ltd
  * @version v2.0

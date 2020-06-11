@@ -18,6 +18,7 @@ package com.example.vo;
 import com.diboot.core.binding.annotation.BindEntity;
 import com.diboot.core.binding.annotation.BindEntityList;
 import com.diboot.core.binding.annotation.BindField;
+import com.diboot.core.binding.annotation.BindFieldList;
 import com.example.entity.Department;
 import com.example.entity.Organization;
 import lombok.Getter;
@@ -26,6 +27,9 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
+/**
+ * 启用devtools，该文件将由diboot-devtools自动生成
+ */
 /**
  * @author www.dibo.ltd
  * @version v2.0
@@ -46,5 +50,9 @@ public class DepartmentVO extends Department {
     // 直接关联多个Entity
     @BindEntityList(entity = Department.class, condition = "this.id=parent_id")
     private List<Department> children;
+
+    // 通过中间表的多-多关联Entity单字段集合
+    @BindFieldList(entity = Department.class, field = "id", condition="this.id=parent_id")
+    private List<Long> childrenIds;
 
 }

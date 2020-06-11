@@ -21,6 +21,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
+ * 启用devtools，该文件将由diboot-devtools自动生成
+ */
+/**
  * 角色Entity
  * @author www.dibo.ltd
  * @version v2.0
