@@ -9,7 +9,7 @@ import com.diboot.core.entity.BaseEntity;
 * @date 2020-03-24
 * Copyright © diboot.com
 */
-public class BaseCustomEntity extends BaseEntity {
+public abstract class BaseCustomEntity extends BaseEntity {
     private static final long serialVersionUID = -6495404149980542418L;
 
 

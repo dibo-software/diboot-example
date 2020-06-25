@@ -15,11 +15,9 @@
  */
 package com.example.config;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.diboot.core.util.DateConverter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -38,15 +36,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages={"com.example"})
 @MapperScan(basePackages={"com.example.mapper"})
 public class SpringMvcConfig implements WebMvcConfigurer{
-
-    /**
-     * Mybatis-plus分页插件
-     */
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-        return paginationInterceptor;
-    }
 
     /**
      * String-Date类型转换

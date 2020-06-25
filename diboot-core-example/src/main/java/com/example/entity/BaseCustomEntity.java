@@ -32,7 +32,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class BaseCustomEntity extends BaseEntity {
+public abstract class BaseCustomEntity extends BaseEntity {
     private static final long serialVersionUID = 305076134404519434L;
 
 }
