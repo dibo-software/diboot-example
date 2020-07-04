@@ -22,7 +22,7 @@ import com.example.service.RoleService;
 import org.springframework.stereotype.Service;
 
 /**
- * 启用devtools，该文件将由diboot-devtools自动生成
+ * 无需手写，启用devtools，该文件将自动生成
  */
 /**
  * 角色相关Service，此处展示继承自Mybatis-plus的IService，绑定注解同样支持

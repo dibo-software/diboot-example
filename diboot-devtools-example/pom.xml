@@ -30,11 +30,25 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- diboot-core内核 -->
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-core-spring-boot-starter</artifactId>
             <version>2.0.6</version>
         </dependency>
+        <!-- diboot-iam 身份与访问控制组件 -->
+        <dependency>
+            <groupId>com.diboot</groupId>
+            <artifactId>diboot-iam-base-spring-boot-starter</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <!-- diboot-file文件处理组件 -->
+        <dependency>
+            <groupId>com.diboot</groupId>
+            <artifactId>diboot-file-spring-boot-starter</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+
         <!-- 依赖diboot-devtools -->
         <dependency>
             <groupId>com.diboot</groupId>

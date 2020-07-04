@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * 启用devtools，该文件将由diboot-devtools自动生成
+ * 无需手写，启用devtools，该文件将自动生成
  */
 /**
  * Department部门

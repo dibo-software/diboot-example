@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import java.io.Serializable;
 
 /**
- * 建议启用devtools，该文件将由diboot-devtools自动生成
+ * 无需手写，启用devtools，该文件将自动生成
  */
 /**
  * User相关常规CRUD Controller

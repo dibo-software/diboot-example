@@ -22,7 +22,7 @@ import com.example.service.OrganizationService;
 import org.springframework.stereotype.Service;
 
 /**
- * 启用devtools，该文件将由diboot-devtools自动生成
+ * 无需手写，启用devtools，该文件将自动生成
  */
 /**
  * 单位相关Service实现

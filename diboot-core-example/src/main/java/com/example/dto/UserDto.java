@@ -25,6 +25,9 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
+ * 无需手写，启用devtools，该文件将自动生成
+ */
+/**
  * DTO测试样例，用于自动绑定QueryWrapper
  * @author www.dibo.ltd
  * @version v2.0

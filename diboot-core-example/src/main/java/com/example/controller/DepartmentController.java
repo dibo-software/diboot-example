@@ -37,6 +37,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * 无需手写，启用devtools，该文件将自动生成
+ */
+/**
  * Department相关Controller示例: 继承自BaseCrudRestController，自定义接口
  * @author www.dibo.ltd
  * @version v2.0

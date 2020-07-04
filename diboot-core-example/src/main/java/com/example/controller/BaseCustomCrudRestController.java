@@ -20,7 +20,7 @@ import com.diboot.core.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 启用devtools，该文件将由diboot-devtools自动生成
+ * 无需手写，启用devtools，该文件将自动生成
  */
 /**
 * 通用CRUD通用父类RestController，子类继承即可拥有CRUD接口（禁止只读接口Controller继承）

@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * 无需手写，启用devtools，该文件将自动生成
+ */
+/**
  * 部门查询DTO（动态按需自动构建Join查询）
  * @author Mazc@dibo.ltd
  * @version v2.0
