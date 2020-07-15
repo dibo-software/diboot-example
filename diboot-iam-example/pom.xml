@@ -7,13 +7,13 @@
     <parent>
         <groupId>com.diboot</groupId>
         <artifactId>diboot-v2-example</artifactId>
-        <version>2.0.6</version>
+        <version>2.1.0</version>
         <relativePath/>
     </parent>
 
     <groupId>com.diboot</groupId>
     <artifactId>diboot-iam-example</artifactId>
-    <version>2.0.6</version>
+    <version>2.1.0</version>
     <packaging>jar</packaging>
     <description>diboot IAM example project</description>
 
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-iam-base-spring-boot-starter</artifactId>
-            <version>2.0.6</version>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.whvcse</groupId>

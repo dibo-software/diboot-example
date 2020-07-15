@@ -7,13 +7,13 @@
     <parent>
         <groupId>com.diboot</groupId>
         <artifactId>diboot-v2-example</artifactId>
-        <version>2.0.6</version>
+        <version>2.1.0</version>
         <relativePath/>
     </parent>
 
     <groupId>com.diboot</groupId>
     <artifactId>diboot-file-example</artifactId>
-    <version>2.0.6</version>
+    <version>2.1.0</version>
     <packaging>jar</packaging>
     <description>diboot file example project</description>
 
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-file-spring-boot-starter</artifactId>
-            <version>2.0.6</version>
+            <version>2.1.0</version>
         </dependency>
 
         <!-- 验证码示例 -->
