@@ -1,8 +1,8 @@
 package com.diboot.online.demo.handler;
 
 import com.diboot.core.handler.DefaultExceptionHandler;
- import org.slf4j.Logger;
- import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**

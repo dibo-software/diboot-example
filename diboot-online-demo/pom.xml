@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.5.RELEASE</version>
+		<version>2.3.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.diboot</groupId>
@@ -27,27 +27,12 @@
 		<dependency>
 			<groupId>com.diboot</groupId>
 			<artifactId>diboot-core-spring-boot-starter</artifactId>
-			<version>2.0.5</version>
+			<version>2.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.diboot</groupId>
 			<artifactId>diboot-iam-base-spring-boot-starter</artifactId>
-			<version>2.0.5.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring-boot-web-starter</artifactId>
-			<version>1.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>1.9.5</version>
+			<version>2.1.1</version>
 		</dependency>
 
 		<dependency>
@@ -56,12 +41,13 @@
 			<version>1.6.2</version>
 		</dependency>
 
+		<!-- 开发环境依赖diboot-devtools
 		<dependency>
 			<groupId>com.diboot</groupId>
 			<artifactId>diboot-devtools-spring-boot-starter</artifactId>
-			<version>2.0.5</version>
+			<version>2.1.1</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>-->
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -111,6 +97,12 @@
 				<configuration>
 					<!-- 工程主入口-->
 					<mainClass>com.diboot.online.demo.DibootOnlineDemoApplication</mainClass>
+					<excludes>
+						<exclude><!-- 只在开发过程依赖，打jar包时剔除 -->
+							<groupId>com.diboot</groupId>
+							<artifactId>diboot-devtools-spring-boot-starter</artifactId>
+						</exclude>
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>

@@ -1,7 +1,7 @@
 package com.diboot.online.demo.service.impl;
 
-import com.diboot.core.service.impl.BaseServiceImpl;
 import com.diboot.core.mapper.BaseCrudMapper;
+import com.diboot.core.service.impl.BaseServiceImpl;
 import com.diboot.online.demo.service.BaseCustomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

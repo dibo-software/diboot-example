@@ -1,11 +1,11 @@
 package com.diboot.online.demo.entity;
 
-import java.util.Map;
-import java.util.LinkedHashMap;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.diboot.core.util.JSON;
 import com.diboot.core.util.V;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
 * 自定义BaseExtEntity，增加扩展属性字段

@@ -22,7 +22,11 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
+/**
+ * 无需手写，启用devtools，该文件将自动生成
+ */
 /**
  * Department部门
  * @author www.dibo.ltd
@@ -47,5 +51,7 @@ public class Department extends BaseCustomEntity {
     @NotNull(message = "部门名称不能为空")
     @Length(min = 10, max = 20, message = "部门名称长度需>=10且<=20")
     private String name;
+
+    private Date createTime;
 
 }

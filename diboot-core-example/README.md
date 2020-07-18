@@ -35,7 +35,7 @@
 #### 4. 编译运行该项目
 浏览器访问如下接口，你会看到接口返回json已经自动绑定了VO中声明的关联（关联字段、实体、实体集合、数据字典）
 http://localhost:8080/example/user/list
-http://localhost:8080/example/department/list
+http://localhost:8080/example/department/listWithDTO
 
 > Controller继承自BaseCrudMappingRestController则自动拥有CRUD mapping接口，
 如果不需要继承mapping接口，可继承自BaseCrudRestController/BaseController。

@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,24 +52,24 @@ public class ExcelController extends BaseExcelFileController {
      * 预览excel数据
      */
     @PostMapping("/preview")
-    public JsonResult preview(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
-        return super.excelPreview(file, request);
+    public JsonResult preview(@RequestParam("file") MultipartFile file) throws Exception {
+        return super.excelPreview(file);
     }
 
     /**
      * 预览无校验错误后 提交
      */
     @PostMapping("/previewSave")
-    public <T> JsonResult previewSave(@RequestParam("previewFileName")String previewFileName, @RequestParam("originFileName")String originFileName, HttpServletRequest request) throws Exception {
-        return super.excelPreviewSave(Department.class, previewFileName, originFileName, request);
+    public <T> JsonResult previewSave(@RequestParam("previewFileName")String previewFileName, @RequestParam("originFileName")String originFileName) throws Exception {
+        return super.excelPreviewSave(Department.class, previewFileName, originFileName);
     }
 
     /**
      * 无预览直接导入
      */
     @PostMapping("/import")
-    public <T> JsonResult upload(@RequestParam("file")MultipartFile file, HttpServletRequest request) throws Exception {
-        return super.uploadExcelFile(file, Department.class, request);
+    public <T> JsonResult upload(@RequestParam("file")MultipartFile file) throws Exception {
+        return super.uploadExcelFile(file, Department.class);
     }
 
     /**

@@ -19,6 +19,9 @@ import com.diboot.core.mapper.BaseCrudMapper;
 import com.example.entity.Organization;
 
 /**
+ * 无需手写，启用devtools，该文件将自动生成
+ */
+/**
  * 单位Mapper
  * @author www.dibo.ltd
  * @version 2018/12/22

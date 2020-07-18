@@ -7,13 +7,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.3.1.RELEASE</version>
         <relativePath/>
     </parent>
 
     <groupId>com.diboot</groupId>
     <artifactId>diboot-v2-example</artifactId>
-    <version>2.0.5</version>
+    <version>2.1.1</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -26,7 +26,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <springboot.version>2.2.4.RELEASE</springboot.version>
+        <springboot.version>2.3.1.RELEASE</springboot.version>
     </properties>
 
     <dependencies>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.10</version>
+            <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
 
@@ -42,13 +42,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.16</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-core-spring-boot-starter</artifactId>
-            <version>2.0.5</version>
+            <version>2.1.1</version>
         </dependency>
 
         <!-- 依赖的Spring jar -->

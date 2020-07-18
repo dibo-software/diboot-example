@@ -19,7 +19,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.diboot.core.controller.BaseCrudRestController;
-import com.diboot.core.service.DictionaryService;
 import com.diboot.core.util.BeanUtils;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.JsonResult;
@@ -38,7 +37,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
@@ -57,13 +55,10 @@ import java.util.List;
 @RequestMapping("/iam/frontendPermission")
 @Slf4j
 @BindPermission(name = "前端资源权限")
-public class IamFrontendPermissionController extends BaseCrudRestController<IamFrontendPermission, IamFrontendPermissionVO> {
+public class IamFrontendPermissionController extends BaseCrudRestController<IamFrontendPermission> {
 
     @Autowired
     private IamFrontendPermissionService iamFrontendPermissionService;
-
-    @Autowired
-    private DictionaryService dictionaryService;
 
     /***
     * 查询ViewObject的分页数据
@@ -75,8 +70,8 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     */
     @BindPermission(name = "查看列表", code = Operation.LIST)
     @GetMapping("/list")
-    public JsonResult getViewObjectListMapping(IamFrontendPermission entity, HttpServletRequest request) throws Exception{
-        QueryWrapper<IamFrontendPermission> queryWrapper = super.buildQueryWrapper(entity, request);
+    public JsonResult getViewObjectListMapping(IamFrontendPermission entity) throws Exception{
+        QueryWrapper<IamFrontendPermission> queryWrapper = super.buildQueryWrapper(entity);
         queryWrapper.lambda().orderByDesc(IamFrontendPermission::getSortId, IamFrontendPermission::getId);
         List<IamFrontendPermissionListVO> voList = iamFrontendPermissionService.getViewObjectList(queryWrapper, null, IamFrontendPermissionListVO.class);
         voList = BeanUtils.buildTree(voList);
@@ -91,20 +86,19 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     */
     @BindPermission(name = "查看详情", code = Operation.DETAIL)
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id, HttpServletRequest request) throws Exception{
-        return super.getViewObject(id, request);
+    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id) throws Exception{
+        return super.getViewObject(id, IamFrontendPermissionVO.class);
     }
 
     /***
     * 新建菜单项、按钮/权限列表
     * @param iamFrontendPermissionDTO
-    * @param request
     * @return
     * @throws Exception
     */
     @BindPermission(name = "新建", code = Operation.CREATE)
     @PostMapping("/")
-    public JsonResult createEntityMapping(@Valid @RequestBody IamFrontendPermissionDTO iamFrontendPermissionDTO, HttpServletRequest request) throws Exception {
+    public JsonResult createEntityMapping(@Valid @RequestBody IamFrontendPermissionDTO iamFrontendPermissionDTO) throws Exception {
         iamFrontendPermissionService.createMenuAndPermissions(iamFrontendPermissionDTO);
         return JsonResult.OK();
     }
@@ -117,7 +111,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     */
     @PutMapping("/{id}")
     @BindPermission(name = "更新", code = Operation.UPDATE)
-    public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamFrontendPermissionDTO iamFrontendPermissionDTO, HttpServletRequest request) throws Exception {
+    public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamFrontendPermissionDTO iamFrontendPermissionDTO) throws Exception {
         iamFrontendPermissionService.updateMenuAndPermissions(iamFrontendPermissionDTO);
         return JsonResult.OK();
     }
@@ -130,7 +124,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     */
     @DeleteMapping("/{id}")
     @BindPermission(name = "删除", code = Operation.DELETE)
-    public JsonResult deleteEntityMapping(@PathVariable("id")Long id, HttpServletRequest request) throws Exception {
+    public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         iamFrontendPermissionService.deleteMenuAndPermissions(id);
         return JsonResult.OK();
     }
@@ -141,7 +135,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * @throws Exception
     */
     @GetMapping("/attachMore")
-    public JsonResult attachMore(HttpServletRequest request, ModelMap modelMap) throws Exception{
+    public JsonResult attachMore(ModelMap modelMap) throws Exception{
         // 获取关联表数据IamFrontendPermission的树状列表
         List<IamFrontendPermissionListVO> menuList = iamFrontendPermissionService.getViewObjectList(
             Wrappers.<IamFrontendPermission>lambdaQuery().eq(IamFrontendPermission::getDisplayType, Cons.FRONTEND_PERMISSION_DISPLAY_TYPE.MENU.name()),
@@ -159,25 +153,23 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     /**
     * 列表排序
     * @param permissionList
-    * @param request
     * @return
     * @throws Exception
     */
     @PostMapping("/sortList")
     @BindPermission(name="列表排序", code = Operation.UPDATE)
-    public JsonResult sortList(@RequestBody List<IamFrontendPermission> permissionList, HttpServletRequest request) throws Exception {
+    public JsonResult sortList(@RequestBody List<IamFrontendPermission> permissionList) throws Exception {
         iamFrontendPermissionService.sortList(permissionList);
         return JsonResult.OK().msg("更新成功");
     }
 
     /***
     * api接口列表（供前端选择）
-    * @param request
     * @return
     * @throws Exception
     */
     @GetMapping("/apiList")
-    public JsonResult apiList(HttpServletRequest request) throws Exception{
+    public JsonResult apiList() throws Exception{
         return JsonResult.OK(ApiPermissionCache.getApiPermissionVoList());
     }
 
@@ -185,11 +177,10 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * 检查菜单编码是否重复
     * @param id
     * @param code
-    * @param request
     * @return
     */
     @GetMapping("/checkCodeDuplicate")
-    public JsonResult checkCodeDuplicate(@RequestParam(required = false) Long id, @RequestParam String code, HttpServletRequest request) {
+    public JsonResult checkCodeDuplicate(@RequestParam(required = false) Long id, @RequestParam String code) {
         if (V.notEmpty(code)) {
             LambdaQueryWrapper<IamFrontendPermission> wrapper = Wrappers.<IamFrontendPermission>lambdaQuery()
                 .select(IamFrontendPermission::getId)

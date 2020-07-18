@@ -62,7 +62,7 @@ VALUES (10001, 0, 100001, '产品部'), (10002, 10001, 100001, '研发组'), (10
 INSERT INTO dictionary (id, parent_id, type, item_name, item_value, description, extdata, sort_id, `is_deletable`, is_editable)
 VALUES (1, 0, 'GENDER', '性别', null, '', null, 99, 0, 1), (2, 1, 'GENDER', '男', 'M', null, null, 99, 0, 1), (3, 1, 'GENDER', '女', 'F', null, null, 99, 0, 1);
 
-INSERT INTO organization (id, parent_id, name, telphone) VALUES (100001, 0, '帝博', '0512-62988949');
+INSERT INTO organization (id, parent_id, name, telphone) VALUES (100001, 0, '帝博信息', '0512-62988949');
 
 INSERT INTO role (id, name, code) VALUES (101, '管理员', 'ADMIN'), (102, '操作员', 'OPERATOR');
 

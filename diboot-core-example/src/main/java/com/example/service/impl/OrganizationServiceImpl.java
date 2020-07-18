@@ -22,6 +22,9 @@ import com.example.service.OrganizationService;
 import org.springframework.stereotype.Service;
 
 /**
+ * 无需手写，启用devtools，该文件将自动生成
+ */
+/**
  * 单位相关Service实现
  * @author www.dibo.ltd
  * @version 2018/12/23

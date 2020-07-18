@@ -40,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
@@ -59,7 +58,7 @@ import java.util.List;
 @RequestMapping("/iam/role")
 @Slf4j
 @BindPermission(name = "角色")
-public class IamRoleController extends BaseCrudRestController<IamRole, IamRoleVO> {
+public class IamRoleController extends BaseCrudRestController<IamRole> {
 
     @Autowired
     private IamRoleService iamRoleService;
@@ -80,8 +79,8 @@ public class IamRoleController extends BaseCrudRestController<IamRole, IamRoleVO
     */
     @GetMapping("/list")
     @BindPermission(name = "查看列表", code = Operation.LIST)
-    public JsonResult getViewObjectListMapping(IamRole entity, Pagination pagination, HttpServletRequest request) throws Exception{
-        return super.getViewObjectList(entity, pagination, request);
+    public JsonResult getViewObjectListMapping(IamRole entity, Pagination pagination) throws Exception{
+        return super.getViewObjectList(entity, pagination, IamRoleVO.class);
     }
 
     /***
@@ -92,7 +91,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole, IamRoleVO
     */
     @GetMapping("/{id}")
     @BindPermission(name = "查看详情", code = Operation.DETAIL)
-    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id, HttpServletRequest request) throws Exception{
+    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id) throws Exception{
         IamRoleVO roleVO = iamRoleService.getViewObject(id, IamRoleVO.class);
         if (V.notEmpty(roleVO.getPermissionList())){
             List<Long> permissionIdList = BeanUtils.collectIdToList(roleVO.getPermissionList());
@@ -110,14 +109,13 @@ public class IamRoleController extends BaseCrudRestController<IamRole, IamRoleVO
     /***
     * 新建角色和角色权限关联列表
     * @param roleFormDTO
-    * @param request
     * @return
     * @throws Exception
     */
     @PostMapping("/")
     @BindPermission(name = "新建", code = Operation.CREATE)
-    public JsonResult createEntityMapping(@Valid @RequestBody IamRoleFormDTO roleFormDTO, HttpServletRequest request) throws Exception {
-        return super.createEntity(roleFormDTO, request);
+    public JsonResult createEntityMapping(@Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
+        return super.createEntity(roleFormDTO);
     }
 
     /***
@@ -128,8 +126,8 @@ public class IamRoleController extends BaseCrudRestController<IamRole, IamRoleVO
     */
     @PutMapping("/{id}")
     @BindPermission(name = "更新", code = Operation.UPDATE)
-    public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamRoleFormDTO roleFormDTO, HttpServletRequest request) throws Exception {
-        return super.updateEntity(id, roleFormDTO, request);
+    public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
+        return super.updateEntity(id, roleFormDTO);
     }
 
     /***
@@ -140,18 +138,17 @@ public class IamRoleController extends BaseCrudRestController<IamRole, IamRoleVO
     */
     @DeleteMapping("/{id}")
     @BindPermission(name = "删除", code = Operation.DELETE)
-    public JsonResult deleteEntityMapping(@PathVariable("id")Serializable id, HttpServletRequest request) throws Exception {
-        return super.deleteEntity(id, request);
+    public JsonResult deleteEntityMapping(@PathVariable("id")Serializable id) throws Exception {
+        return super.deleteEntity(id);
     }
 
     /***
     * 获取所有角色键值列表
-    * @param request
     * @return
     * @throws Exception
     */
     @GetMapping("kvList")
-    public JsonResult getKvList(HttpServletRequest request) throws Exception{
+    public JsonResult getKvList() throws Exception{
     List<KeyValue> kvList = iamRoleService.getKeyValueList(Wrappers.<IamRole>lambdaQuery().select(IamRole::getId, IamRole::getName));
         return JsonResult.OK(kvList);
     }
@@ -160,11 +157,10 @@ public class IamRoleController extends BaseCrudRestController<IamRole, IamRoleVO
     * 检查编码是否重复
     * @param id
     * @param code
-    * @param request
     * @return
     */
     @GetMapping("/checkCodeDuplicate")
-    public JsonResult checkCodeDuplicate(@RequestParam(required = false) Long id, @RequestParam String code, HttpServletRequest request) {
+    public JsonResult checkCodeDuplicate(@RequestParam(required = false) Long id, @RequestParam String code) {
         if (V.notEmpty(code)) {
             LambdaQueryWrapper<IamRole> wrapper = Wrappers.<IamRole>lambdaQuery()
                 .select(IamRole::getId).eq(IamRole::getCode, code);

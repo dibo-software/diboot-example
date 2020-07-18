@@ -21,6 +21,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
+ * 无需手写，启用devtools，该文件将自动生成
+ */
+/**
  * 角色Entity
  * @author www.dibo.ltd
  * @version v2.0

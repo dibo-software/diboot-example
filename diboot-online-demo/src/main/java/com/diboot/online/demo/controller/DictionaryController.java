@@ -2,19 +2,16 @@ package com.diboot.online.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import com.diboot.core.controller.BaseCrudRestController;
+import com.diboot.core.entity.Dictionary;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.*;
-import com.diboot.core.entity.Dictionary;
-import com.diboot.core.service.DictionaryService;
-import com.diboot.core.controller.BaseCrudRestController;
-import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.annotation.BindPermission;
+import com.diboot.iam.annotation.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -28,11 +25,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/dictionary")
 @BindPermission(name = "数据字典")
-public class DictionaryController extends BaseCrudRestController<Dictionary, DictionaryVO> {
+public class DictionaryController extends BaseCrudRestController<Dictionary> {
     private static final Logger log = LoggerFactory.getLogger(DictionaryController.class);
-
-    @Autowired
-    private DictionaryService dictionaryService;
 
     /***
     * 查询ViewObject的分页数据
@@ -44,8 +38,8 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     */
     @BindPermission(name = "查看列表", code = Operation.LIST)
     @GetMapping("/list")
-    public JsonResult getViewObjectListMapping(Dictionary entity, Pagination pagination, HttpServletRequest request) throws Exception{
-        QueryWrapper<Dictionary> queryWrapper = super.buildQueryWrapper(entity, request);
+    public JsonResult getViewObjectListMapping(Dictionary entity, Pagination pagination) throws Exception{
+        QueryWrapper<Dictionary> queryWrapper = super.buildQueryWrapper(entity);
         List<DictionaryVO> voList = dictionaryService.getViewObjectList(queryWrapper, pagination, DictionaryVO.class);
         return JsonResult.OK(voList).bindPagination(pagination);
     }
@@ -58,8 +52,8 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     */
     @BindPermission(name = "查看详情", code = Operation.DETAIL)
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id") Long id, HttpServletRequest request) throws Exception{
-        return super.getViewObject(id, request);
+    public JsonResult getViewObjectMapping(@PathVariable("id") Long id) throws Exception{
+        return super.getViewObject(id, DictionaryVO.class);
     }
 
     /**
@@ -70,7 +64,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     */
     @BindPermission(name = "新建", code = Operation.CREATE)
     @PostMapping("/")
-    public JsonResult createEntityMapping(@RequestBody @Valid DictionaryVO entityVO, HttpServletRequest request) throws Exception {
+    public JsonResult createEntityMapping(@RequestBody @Valid DictionaryVO entityVO) throws Exception {
         boolean success = dictionaryService.createDictAndChildren(entityVO);
         if(!success){
             return JsonResult.FAIL_OPERATION("保存数据字典失败！");
@@ -86,7 +80,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     */
     @BindPermission(name = "更新", code = Operation.UPDATE)
     @PutMapping("/{id}")
-    public JsonResult updateEntityMapping(@PathVariable("id")Long id, @Valid @RequestBody DictionaryVO entityVO, HttpServletRequest request) throws Exception {
+    public JsonResult updateEntityMapping(@PathVariable("id")Long id, @Valid @RequestBody DictionaryVO entityVO) throws Exception {
         entityVO.setId(id);
         boolean success = dictionaryService.updateDictAndChildren(entityVO);
         if(!success){
@@ -103,7 +97,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     */
     @BindPermission(name = "删除", code = Operation.DELETE)
     @DeleteMapping("/{id}")
-    public JsonResult deleteEntityMapping(@PathVariable("id")Long id, HttpServletRequest request) throws Exception {
+    public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         boolean success = dictionaryService.deleteDictAndChildren(id);
         if(!success){
             return JsonResult.FAIL_OPERATION("删除数据字典失败！");
@@ -130,11 +124,10 @@ public class DictionaryController extends BaseCrudRestController<Dictionary, Dic
     * 校验类型编码是否重复
     * @param id
     * @param type
-    * @param request
     * @return
     */
     @GetMapping("/checkTypeDuplicate")
-    public JsonResult checkTypeDuplicate(@RequestParam(required = false) Long id, @RequestParam String type, HttpServletRequest request) {
+    public JsonResult checkTypeDuplicate(@RequestParam(required = false) Long id, @RequestParam String type) {
         if (V.notEmpty(type)) {
             LambdaQueryWrapper<Dictionary> wrapper = new LambdaQueryWrapper();
             wrapper.select(Dictionary::getId).eq(Dictionary::getType, type).eq(Dictionary::getParentId, 0);
