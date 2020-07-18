@@ -7,13 +7,13 @@
     <parent>
         <groupId>com.diboot</groupId>
         <artifactId>diboot-v2-example</artifactId>
-        <version>2.1.0</version>
+        <version>2.1.1</version>
         <relativePath/>
     </parent>
 
     <groupId>com.diboot</groupId>
     <artifactId>diboot-devtools-example</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
     <packaging>war</packaging>
     <description>diboot devtools example project</description>
 
@@ -34,26 +34,26 @@
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-core-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.1</version>
         </dependency>
         <!-- diboot-iam 身份与访问控制组件 -->
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-iam-base-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.1</version>
         </dependency>
         <!-- diboot-file文件处理组件 -->
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-file-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.1</version>
         </dependency>
 
         <!-- 开发环境依赖diboot-devtools -->
         <dependency>
             <groupId>com.diboot</groupId>
             <artifactId>diboot-devtools-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.1</version>
             <scope>provided</scope><!-- 只在开发过程依赖，打war包时剔除 -->
         </dependency>
 
