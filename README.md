@@ -7,4 +7,4 @@ diboot-v2 各模块组件对应的样例代码
 * 正式项目启用devtools，各个组件的基础代码可一键生成在您本地。
 
 ## 快速体验
-diboot新手欲快速体验devtools，可下载此前后端一起的 [新手整合包](playground.zip)，导入IDE修改数据库信息后即可体验。
+diboot新手欲快速体验devtools，可下载此前后端一起的 [playground 新手整合包](playground.zip)，导入IDE修改数据库信息后即可体验。
