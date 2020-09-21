@@ -36,7 +36,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看列表", code = Operation.LIST)
+    @BindPermission(name = "查看列表", code = Operation.CODE_LIST)
     @GetMapping("/list")
     public JsonResult getViewObjectListMapping(Dictionary entity, Pagination pagination) throws Exception{
         QueryWrapper<Dictionary> queryWrapper = super.buildQueryWrapper(entity);
@@ -50,7 +50,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看详情", code = Operation.DETAIL)
+    @BindPermission(name = "查看详情", code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
     public JsonResult getViewObjectMapping(@PathVariable("id") Long id) throws Exception{
         return super.getViewObject(id, DictionaryVO.class);
@@ -62,7 +62,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary> {
     * @return JsonResult
     * @throws Exception
     */
-    @BindPermission(name = "新建", code = Operation.CREATE)
+    @BindPermission(name = "新建", code = Operation.CODE_CREATE)
     @PostMapping("/")
     public JsonResult createEntityMapping(@RequestBody @Valid DictionaryVO entityVO) throws Exception {
         boolean success = dictionaryService.createDictAndChildren(entityVO);
@@ -78,7 +78,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary> {
     * @return JsonResult
     * @throws Exception
     */
-    @BindPermission(name = "更新", code = Operation.UPDATE)
+    @BindPermission(name = "更新", code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
     public JsonResult updateEntityMapping(@PathVariable("id")Long id, @Valid @RequestBody DictionaryVO entityVO) throws Exception {
         entityVO.setId(id);
@@ -95,7 +95,7 @@ public class DictionaryController extends BaseCrudRestController<Dictionary> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "删除", code = Operation.DELETE)
+    @BindPermission(name = "删除", code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
     public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         boolean success = dictionaryService.deleteDictAndChildren(id);

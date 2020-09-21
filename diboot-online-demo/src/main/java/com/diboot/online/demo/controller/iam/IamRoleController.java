@@ -61,7 +61,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @throws Exception
     */
     @GetMapping("/list")
-    @BindPermission(name = "查看列表", code = Operation.LIST)
+    @BindPermission(name = "查看列表", code = Operation.CODE_LIST)
     public JsonResult getViewObjectListMapping(IamRole entity, Pagination pagination) throws Exception{
         return super.getViewObjectList(entity, pagination, IamRoleVO.class);
     }
@@ -73,7 +73,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @throws Exception
     */
     @GetMapping("/{id}")
-    @BindPermission(name = "查看详情", code = Operation.DETAIL)
+    @BindPermission(name = "查看详情", code = Operation.CODE_DETAIL)
     public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
         IamRoleVO roleVO = iamRoleService.getViewObject(id, IamRoleVO.class);
         if (V.notEmpty(roleVO.getPermissionList())){
@@ -96,7 +96,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @throws Exception
     */
     @PostMapping("/")
-    @BindPermission(name = "新建", code = Operation.CREATE)
+    @BindPermission(name = "新建", code = Operation.CODE_CREATE)
     public JsonResult createEntityMapping(@Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
         return super.createEntity(roleFormDTO);
     }
@@ -108,7 +108,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @throws Exception
     */
     @PutMapping("/{id}")
-    @BindPermission(name = "更新", code = Operation.UPDATE)
+    @BindPermission(name = "更新", code = Operation.CODE_UPDATE)
     public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
         return super.updateEntity(id, roleFormDTO);
     }
@@ -120,7 +120,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @throws Exception
     */
     @DeleteMapping("/{id}")
-    @BindPermission(name = "删除", code = Operation.DELETE)
+    @BindPermission(name = "删除", code = Operation.CODE_DELETE)
     public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         return super.deleteEntity(id);
     }

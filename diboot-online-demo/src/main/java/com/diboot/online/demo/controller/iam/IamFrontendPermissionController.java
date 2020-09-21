@@ -51,7 +51,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看列表", code = Operation.LIST)
+    @BindPermission(name = "查看列表", code = Operation.CODE_LIST)
     @GetMapping("/list")
     public JsonResult getViewObjectListMapping(IamFrontendPermission entity) throws Exception{
         QueryWrapper<IamFrontendPermission> queryWrapper = super.buildQueryWrapper(entity);
@@ -67,7 +67,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看详情", code = Operation.DETAIL)
+    @BindPermission(name = "查看详情", code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
     public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
         return super.getViewObject(id, IamFrontendPermissionVO.class);
@@ -79,7 +79,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "新建", code = Operation.CREATE)
+    @BindPermission(name = "新建", code = Operation.CODE_CREATE)
     @PostMapping("/")
     public JsonResult createEntityMapping(@Valid @RequestBody IamFrontendPermissionDTO iamFrontendPermissionDTO) throws Exception {
         iamFrontendPermissionService.createMenuAndPermissions(iamFrontendPermissionDTO);
@@ -93,7 +93,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * @throws Exception
     */
     @PutMapping("/{id}")
-    @BindPermission(name = "更新", code = Operation.UPDATE)
+    @BindPermission(name = "更新", code = Operation.CODE_UPDATE)
     public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamFrontendPermissionDTO iamFrontendPermissionDTO) throws Exception {
         iamFrontendPermissionService.updateMenuAndPermissions(iamFrontendPermissionDTO);
         return JsonResult.OK();
@@ -106,7 +106,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * @throws Exception
     */
     @DeleteMapping("/{id}")
-    @BindPermission(name = "删除", code = Operation.DELETE)
+    @BindPermission(name = "删除", code = Operation.CODE_DELETE)
     public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         iamFrontendPermissionService.deleteMenuAndPermissions(id);
         return JsonResult.OK();
@@ -140,7 +140,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     * @throws Exception
     */
     @PostMapping("/sortList")
-    @BindPermission(name="列表排序", code = Operation.UPDATE)
+    @BindPermission(name="列表排序", code = Operation.CODE_UPDATE)
     public JsonResult sortList(@RequestBody List<IamFrontendPermission> permissionList) throws Exception {
         iamFrontendPermissionService.sortList(permissionList);
         return JsonResult.OK().msg("更新成功");

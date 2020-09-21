@@ -18,6 +18,7 @@ package com.example.iam.controller.iam;
 import com.diboot.core.controller.BaseController;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.iam.annotation.BindPermission;
+import com.diboot.iam.annotation.Log;
 import com.diboot.iam.auth.AuthServiceFactory;
 import com.diboot.iam.config.Cons;
 import com.diboot.iam.dto.PwdCredential;
@@ -26,6 +27,7 @@ import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
 import com.diboot.iam.vo.IamRoleVO;
 import com.wf.captcha.utils.CaptchaUtil;
+import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,6 +87,7 @@ public class AuthTokenController extends BaseController {
     * @return
     * @throws Exception
     */
+    @Log(businessObj = "IamUser", operation = "退出")
     @PostMapping("/logout")
     public JsonResult logout() throws Exception{
         IamSecurityUtils.logout();

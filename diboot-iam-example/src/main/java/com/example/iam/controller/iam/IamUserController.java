@@ -24,6 +24,7 @@ import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.KeyValue;
 import com.diboot.core.vo.Pagination;
 import com.diboot.iam.annotation.BindPermission;
+import com.diboot.iam.annotation.Log;
 import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.config.Cons;
 import com.diboot.iam.dto.ChangePwdDTO;
@@ -58,8 +59,8 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("/iam/user")
-@Slf4j
 @BindPermission(name = "用户")
+@Log(businessObj = "IamUser")
 public class IamUserController extends BaseCrudRestController<IamUser> {
 
     @Autowired
@@ -79,7 +80,8 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看列表", code = Operation.LIST)
+    @Log(operation = Operation.LABEL_LIST)
+    @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
     public JsonResult getViewObjectListMapping(IamUser entity, Pagination pagination) throws Exception{
         return super.getViewObjectList(entity, pagination, IamUserVO.class);
@@ -91,7 +93,8 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看详情", code = Operation.DETAIL)
+    @Log(operation = Operation.LABEL_DETAIL)
+    @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
     public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id) throws Exception{
         return super.getViewObject(id, IamUserVO.class);
@@ -103,8 +106,9 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @Log(operation = Operation.LABEL_CREATE)
+    @BindPermission(name = Operation.LABEL_CREATE, code = Operation.CODE_CREATE)
     @PostMapping("/")
-    @BindPermission(name = "新建", code = Operation.CREATE)
     public JsonResult createEntityMapping(@Valid @RequestBody IamUserAccountDTO iamUserAccountDTO) throws Exception {
         iamUserService.createUserAndAccount(iamUserAccountDTO);
         return JsonResult.OK();
@@ -116,7 +120,8 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return JsonResult
     * @throws Exception
     */
-    @BindPermission(name = "更新", code = Operation.UPDATE)
+    @Log(operation = Operation.LABEL_UPDATE)
+    @BindPermission(name = Operation.LABEL_UPDATE, code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
     public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamUserAccountDTO iamUserAccountDTO) throws Exception {
         iamUserService.updateUserAndAccount(iamUserAccountDTO);
@@ -129,7 +134,8 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "删除", code = Operation.DELETE)
+    @Log(operation = Operation.LABEL_DELETE)
+    @BindPermission(name = Operation.LABEL_DELETE, code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
     public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         iamUserService.deleteUserAndAccount(id);
@@ -206,6 +212,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @Log(operation = "更新个人信息")
     @PostMapping("/updateCurrentUserInfo")
     public JsonResult updateCurrentUserInfo(@Valid @RequestBody BaseUserInfoDTO baseUserInfoDTO) throws Exception{
         IamUser iamUser = IamSecurityUtils.getCurrentUser();
@@ -227,6 +234,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @Log(operation = "修改密码")
     @PostMapping("/changePwd")
     public JsonResult changePwd(@Valid @RequestBody ChangePwdDTO changePwdDTO) throws Exception{
         IamUser iamUser = IamSecurityUtils.getCurrentUser();
