@@ -42,7 +42,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -55,11 +54,10 @@ import java.util.List;
 * @date 2020-03-18
 * Copyright © dibo.ltd
 */
-@Slf4j
-@Log(businessObj = "IamRole")
-@BindPermission(name = "角色")
 @RestController
 @RequestMapping("/iam/role")
+@Slf4j
+@BindPermission(name = "角色")
 public class IamRoleController extends BaseCrudRestController<IamRole> {
 
     @Autowired
@@ -95,7 +93,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     @Log(operation = Operation.LABEL_DETAIL)
     @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id) throws Exception{
+    public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
         IamRoleVO roleVO = iamRoleService.getViewObject(id, IamRoleVO.class);
         if (V.notEmpty(roleVO.getPermissionList())){
             List<Long> permissionIdList = BeanUtils.collectIdToList(roleVO.getPermissionList());
@@ -144,7 +142,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     */
     @DeleteMapping("/{id}")
     @BindPermission(name = "删除", code = Operation.CODE_DELETE)
-    public JsonResult deleteEntityMapping(@PathVariable("id")Serializable id) throws Exception {
+    public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         return super.deleteEntity(id);
     }
 

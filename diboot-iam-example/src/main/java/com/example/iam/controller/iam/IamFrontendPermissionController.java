@@ -89,7 +89,7 @@ public class IamFrontendPermissionController extends BaseCrudRestController<IamF
     @Log(operation = Operation.LABEL_DETAIL)
     @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id) throws Exception{
+    public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
         return super.getViewObject(id, IamFrontendPermissionVO.class);
     }
 

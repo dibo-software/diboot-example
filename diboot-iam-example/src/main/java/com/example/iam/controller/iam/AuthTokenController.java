@@ -16,7 +16,9 @@
 package com.example.iam.controller.iam;
 
 import com.diboot.core.controller.BaseController;
+import com.diboot.core.exception.BusinessException;
 import com.diboot.core.vo.JsonResult;
+import com.diboot.core.vo.Status;
 import com.diboot.iam.annotation.BindPermission;
 import com.diboot.iam.annotation.Log;
 import com.diboot.iam.auth.AuthServiceFactory;
@@ -27,7 +29,6 @@ import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
 import com.diboot.iam.vo.IamRoleVO;
 import com.wf.captcha.utils.CaptchaUtil;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class AuthTokenController extends BaseController {
     * 获取验证码
     */
     @GetMapping("/auth/captcha")
-    public void captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void captcha(HttpServletResponse response) throws Exception {
         CaptchaUtil.out(4, request, response);
     }
 
@@ -103,6 +103,9 @@ public class AuthTokenController extends BaseController {
         Map<String, Object> data = new HashMap<>();
         // 获取当前登录用户对象
         IamUser currentUser = IamSecurityUtils.getCurrentUser();
+        if(currentUser == null){
+            throw new BusinessException(Status.FAIL_INVALID_TOKEN);
+        }
         data.put("name", currentUser.getRealname());
         // 角色权限数据
         IamRoleVO roleVO = iamUserService.buildRoleVo4FrontEnd(currentUser);

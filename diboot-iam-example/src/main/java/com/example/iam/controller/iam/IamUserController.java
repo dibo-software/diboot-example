@@ -44,7 +44,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -59,8 +58,8 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("/iam/user")
+@Slf4j
 @BindPermission(name = "用户")
-@Log(businessObj = "IamUser")
 public class IamUserController extends BaseCrudRestController<IamUser> {
 
     @Autowired
@@ -96,7 +95,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     @Log(operation = Operation.LABEL_DETAIL)
     @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id) throws Exception{
+    public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
         return super.getViewObject(id, IamUserVO.class);
     }
 
