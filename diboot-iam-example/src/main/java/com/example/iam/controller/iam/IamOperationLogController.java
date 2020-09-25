@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Serializable;
-
 /**
  * 建议启用devtools，该文件由diboot-devtools自动生成
  */
@@ -78,7 +76,7 @@ public class IamOperationLogController extends BaseCrudRestController<IamOperati
     @Log(operation = Operation.LABEL_DETAIL)
     @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
-    public JsonResult getViewObjectMapping(@PathVariable("id") Serializable id) throws Exception{
+    public JsonResult getViewObjectMapping(@PathVariable("id") Long id) throws Exception{
         IamOperationLog operationLog = super.getEntity(id);
         return JsonResult.OK(operationLog);
     }

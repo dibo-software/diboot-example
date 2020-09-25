@@ -140,8 +140,9 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @Log(operation = Operation.LABEL_DELETE)
+    @BindPermission(name = Operation.LABEL_DELETE, code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
-    @BindPermission(name = "删除", code = Operation.CODE_DELETE)
     public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         return super.deleteEntity(id);
     }
