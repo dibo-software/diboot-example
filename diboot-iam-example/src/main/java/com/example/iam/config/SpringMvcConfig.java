@@ -16,7 +16,7 @@
 package com.example.iam.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.example.iam.inteceptor.DataAccessCheckInteceptor;
+import com.diboot.core.handler.DataAccessControlInteceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +44,7 @@ public class SpringMvcConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         //interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
-        interceptor.addInnerInterceptor(new DataAccessCheckInteceptor());
+        interceptor.addInnerInterceptor(new DataAccessControlInteceptor());
         return interceptor;
     }
 
