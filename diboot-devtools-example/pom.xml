@@ -54,7 +54,7 @@
             <groupId>com.diboot</groupId>
             <artifactId>diboot-devtools-spring-boot-starter</artifactId>
             <version>2.1.1</version>
-            <scope>provided</scope><!-- 只在开发过程依赖，打war包时剔除 -->
+            <scope>provided</scope><!-- 只在开发过程依赖，打war包时剔除 (IDEA社区版不要添加此行) -->
         </dependency>
 
     </dependencies>
