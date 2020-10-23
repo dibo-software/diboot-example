@@ -19,6 +19,7 @@ import com.diboot.core.service.impl.BaseServiceImpl;
 import com.example.entity.Department;
 import com.example.mapper.DepartmentMapper;
 import com.example.service.DepartmentService;
+import com.example.vo.OldDepartmentVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,5 +33,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DepartmentServiceImpl extends BaseServiceImpl<DepartmentMapper, Department> implements DepartmentService {
+
+    @Override
+    public OldDepartmentVO getDepartmentVOByMybatisXML(Long id) {
+        return baseMapper.getDepartmentVOByMybatisXML(id);
+    }
 
 }

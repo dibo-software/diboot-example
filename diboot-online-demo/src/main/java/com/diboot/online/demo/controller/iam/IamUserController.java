@@ -62,7 +62,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看列表", code = Operation.LIST)
+    @BindPermission(name = "查看列表", code = Operation.CODE_LIST)
     @GetMapping("/list")
     public JsonResult getViewObjectListMapping(IamUser entity, Pagination pagination) throws Exception{
         return super.getViewObjectList(entity, pagination, IamUserVO.class);
@@ -74,7 +74,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "查看详情", code = Operation.DETAIL)
+    @BindPermission(name = "查看详情", code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
     public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
         return super.getViewObject(id, IamUserVO.class);
@@ -87,7 +87,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @throws Exception
     */
     @PostMapping("/")
-    @BindPermission(name = "新建", code = Operation.CREATE)
+    @BindPermission(name = "新建", code = Operation.CODE_CREATE)
     public JsonResult createEntityMapping(@Valid @RequestBody IamUserAccountDTO iamUserAccountDTO) throws Exception {
         iamUserService.createUserAndAccount(iamUserAccountDTO);
         return JsonResult.OK();
@@ -99,7 +99,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return JsonResult
     * @throws Exception
     */
-    @BindPermission(name = "更新", code = Operation.UPDATE)
+    @BindPermission(name = "更新", code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
     public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamUserAccountDTO iamUserAccountDTO) throws Exception {
         iamUserService.updateUserAndAccount(iamUserAccountDTO);
@@ -112,7 +112,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @BindPermission(name = "删除", code = Operation.DELETE)
+    @BindPermission(name = "删除", code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
     public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         iamUserService.deleteUserAndAccount(id);

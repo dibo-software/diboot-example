@@ -38,7 +38,7 @@ public class IamLoginTraceController extends BaseCrudRestController<IamLoginTrac
     * @throws Exception
     */
     @GetMapping("/list")
-    @BindPermission(name = "查看列表", code = Operation.LIST)
+    @BindPermission(name = "查看列表", code = Operation.CODE_LIST)
     public JsonResult getViewObjectListMapping(IamLoginTrace entity, Pagination pagination) throws Exception{
         return super.getViewObjectList(entity, pagination, IamLoginTraceVO.class);
     }

@@ -16,13 +16,14 @@
 package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.diboot.core.binding.data.CheckpointType;
+import com.diboot.core.binding.data.DataAccessCheckpoint;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * 无需手写，启用devtools，该文件将自动生成
@@ -43,6 +44,7 @@ public class Department extends BaseCustomEntity {
     @NotNull(message = "parentId不能为空")
     private Long parentId;
 
+    @DataAccessCheckpoint(type = CheckpointType.ORG)
     @TableField
     @NotNull(message = "单位ID不能为空")
     private Long orgId;
@@ -51,7 +53,4 @@ public class Department extends BaseCustomEntity {
     @NotNull(message = "部门名称不能为空")
     @Length(min = 10, max = 20, message = "部门名称长度需>=10且<=20")
     private String name;
-
-    private Date createTime;
-
 }

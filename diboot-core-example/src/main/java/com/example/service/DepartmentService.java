@@ -17,6 +17,7 @@ package com.example.service;
 
 import com.diboot.core.service.BaseService;
 import com.example.entity.Department;
+import com.example.vo.OldDepartmentVO;
 
 /**
  * 无需手写，启用devtools，该文件将自动生成
@@ -28,5 +29,12 @@ import com.example.entity.Department;
  * @date 2019/1/30
  */
 public interface DepartmentService extends BaseService<Department> {
+
+    /**
+     * 示例演示Mybatis XML方式实现关联对象绑定
+     * @param id
+     * @return
+     */
+    OldDepartmentVO getDepartmentVOByMybatisXML(Long id);
 
 }

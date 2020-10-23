@@ -28,10 +28,12 @@ import com.example.dto.DepartmentDTO;
 import com.example.entity.Department;
 import com.example.service.DepartmentService;
 import com.example.vo.DepartmentVO;
+import com.example.vo.OldDepartmentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -56,7 +58,7 @@ public class DepartmentController extends BaseCustomCrudRestController<Departmen
     /***
      * 查询ViewObject的分页数据
      * <p>
-     * url参数示例: /list?pageSize=20&pageIndex=1&orderBy=id&name=xx&orgName=yyy
+     * url参数示例: /listWithDTO?pageSize=20&pageIndex=1&orderBy=id&name=xx&orgName=yyy
      * 如果查询条件包含关联表字段，则自动构建关联查询
      * </p>
      * @return
@@ -73,6 +75,34 @@ public class DepartmentController extends BaseCustomCrudRestController<Departmen
         List<DepartmentVO> voList = Binder.convertAndBindRelations(entityList, DepartmentVO.class);
         // 返回结果
         return JsonResult.OK(voList).bindPagination(pagination);
+    }
+
+    /**
+     * 传统Mybatis方式实现关联对象绑定
+     * URL访问示例：http://localhost:8080/example/department/getVOByMapperXml?id=10001
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/getVOByMapperXml")
+    public JsonResult getVOByMapperXml(@RequestParam("id")Long id) throws Exception{
+        OldDepartmentVO departmentVO = departmentService.getDepartmentVOByMybatisXML(id);
+        // 返回结果
+        return JsonResult.OK(departmentVO);
+    }
+
+    /**
+     * Diboot注解方式实现关联对象绑定
+     * URL访问示例：http://localhost:8080/example/department/getVOByBindAnno?id=10001
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/getVOByBindAnno")
+    public JsonResult getVOByBindAnno(@RequestParam("id")Long id) throws Exception{
+        DepartmentVO departmentVO = departmentService.getViewObject(id, DepartmentVO.class);
+        // 返回结果
+        return JsonResult.OK(departmentVO);
     }
 
     /**

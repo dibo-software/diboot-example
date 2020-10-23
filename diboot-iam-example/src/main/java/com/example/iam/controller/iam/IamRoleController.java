@@ -26,6 +26,7 @@ import com.diboot.core.vo.KeyValue;
 import com.diboot.core.vo.Pagination;
 import com.diboot.core.vo.Status;
 import com.diboot.iam.annotation.BindPermission;
+import com.diboot.iam.annotation.Log;
 import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.config.Cons;
 import com.diboot.iam.dto.IamRoleFormDTO;
@@ -41,7 +42,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -77,8 +77,9 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @Log(operation = Operation.LABEL_LIST)
+    @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
-    @BindPermission(name = "查看列表", code = Operation.LIST)
     public JsonResult getViewObjectListMapping(IamRole entity, Pagination pagination) throws Exception{
         return super.getViewObjectList(entity, pagination, IamRoleVO.class);
     }
@@ -89,9 +90,10 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @Log(operation = Operation.LABEL_DETAIL)
+    @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
-    @BindPermission(name = "查看详情", code = Operation.DETAIL)
-    public JsonResult getViewObjectMapping(@PathVariable("id")Serializable id) throws Exception{
+    public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
         IamRoleVO roleVO = iamRoleService.getViewObject(id, IamRoleVO.class);
         if (V.notEmpty(roleVO.getPermissionList())){
             List<Long> permissionIdList = BeanUtils.collectIdToList(roleVO.getPermissionList());
@@ -112,8 +114,9 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @Log(operation = Operation.LABEL_CREATE)
+    @BindPermission(name = Operation.LABEL_CREATE, code = Operation.CODE_CREATE)
     @PostMapping("/")
-    @BindPermission(name = "新建", code = Operation.CREATE)
     public JsonResult createEntityMapping(@Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
         return super.createEntity(roleFormDTO);
     }
@@ -124,8 +127,9 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return JsonResult
     * @throws Exception
     */
+    @Log(operation = Operation.LABEL_UPDATE)
+    @BindPermission(name = Operation.LABEL_UPDATE, code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
-    @BindPermission(name = "更新", code = Operation.UPDATE)
     public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
         return super.updateEntity(id, roleFormDTO);
     }
@@ -136,9 +140,10 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @Log(operation = Operation.LABEL_DELETE)
+    @BindPermission(name = Operation.LABEL_DELETE, code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
-    @BindPermission(name = "删除", code = Operation.DELETE)
-    public JsonResult deleteEntityMapping(@PathVariable("id")Serializable id) throws Exception {
+    public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
         return super.deleteEntity(id);
     }
 

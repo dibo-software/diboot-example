@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DepartmentMapper">
+
+    <!-- 示例演示Mybatis XML方式实现关联对象绑定。
+    此处仅为了展示传统 Mybatis 项目如何做关联映射绑定。
+    使用diboot无需如此繁琐，一行注解即可绑定，具体参考: DepartmentVO -->
+
+    <!-- 定义结果集 -->
+    <resultMap id="DepartmentVOResultMap" type="com.example.vo.OldDepartmentVO">
+        <id property="id" column="id"/>
+        <result property="orgId" column="org_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+
+        <!-- 关联其他表的id-name转换 -->
+        <result property="orgName" column="org_name"/>
+
+        <!-- 关联单位 -->
+        <association property="organization" javaType="com.example.entity.Organization">
+            <id property="id" column="org_id"/>
+            <result property="parentId" column="org_parent_id"/>
+            <result property="name" column="org_name"/>
+            <result property="telphone" column="org_telphone"/>
+            <result property="createTime" column="org_create_time"/>
+        </association>
+
+        <!-- 关联子部门 -->
+        <collection property="children" ofType="com.example.entity.Department">
+            <id property="id" column="chd_id"/>
+            <result property="orgId" column="chd_org_id"/>
+            <result property="parentId" column="chd_parent_id"/>
+            <result property="name" column="chd_name"/>
+            <result property="createTime" column="chd_create_time"/>
+        </collection>
+
+        <!-- 关联子部门Ids -->
+        <collection property="childrenIds" ofType="Long">
+            <id property="id" column="chd_id"/>
+        </collection>
+
+    </resultMap>
+
+    <!-- 定义查询SQL -->
+    <select id="getDepartmentVOByMybatisXML" parameterType="Long" resultMap="DepartmentVOResultMap">
+        SELECT  self.id, self.org_id, self.parent_id, self.name, self.create_time,
+                <!-- 属性名冲突，不能直接alias.*，必须分别设置字段AS别名 -->
+                org.id AS org_id, org.name AS org_name, org.parent_id AS org_parent_id, org.telphone AS org_telphone, org.create_time AS org_create_time,
+                <!-- 属性名冲突，不能直接alias.*，必须分别设置字段AS别名 -->
+                chd.id AS chd_id, chd.org_id AS chd_org_id, chd.parent_id AS chd_parent_id, chd.name AS chd_name, chd.create_time AS chd_create_time
+        FROM department self
+        LEFT JOIN organization org ON self.org_id=org.id
+        LEFT JOIN department chd ON self.id=chd.parent_id
+        WHERE self.id=#{id}
+    </select>
+
+</mapper>

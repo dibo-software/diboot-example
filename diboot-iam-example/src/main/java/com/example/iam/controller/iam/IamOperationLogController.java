@@ -15,39 +15,35 @@
  */
 package com.example.iam.controller.iam;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.diboot.core.controller.BaseCrudRestController;
 import com.diboot.core.vo.JsonResult;
-import com.diboot.core.vo.KeyValue;
 import com.diboot.core.vo.Pagination;
 import com.diboot.iam.annotation.BindPermission;
 import com.diboot.iam.annotation.Log;
 import com.diboot.iam.annotation.Operation;
-import com.diboot.iam.config.Cons;
-import com.diboot.iam.entity.IamLoginTrace;
-import com.diboot.iam.vo.IamLoginTraceVO;
+import com.diboot.iam.entity.IamOperationLog;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * 建议启用devtools，该文件由diboot-devtools自动生成
  */
 /**
-* 登录日志
+* 操作日志
 * @author www.dibo.ltd
 * @version 1.0.1
-* @date 2020-03-18
+* @date 2020-09-18
 * Copyright © dibo.ltd
 */
 @RestController
-@RequestMapping("/iam/loginTrace")
+@RequestMapping("/iam/operationLog")
 @Slf4j
-@BindPermission(name = "登录日志")
-public class IamLoginTraceController extends BaseCrudRestController<IamLoginTrace> {
+@BindPermission(name = "操作日志")
+public class IamOperationLogController extends BaseCrudRestController<IamOperationLog> {
 
     /***
     * 查询分页数据
@@ -57,21 +53,32 @@ public class IamLoginTraceController extends BaseCrudRestController<IamLoginTrac
     @Log(operation = Operation.LABEL_LIST)
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
-    public JsonResult getViewObjectListMapping(IamLoginTrace entity, Pagination pagination) throws Exception{
-        return super.getViewObjectList(entity, pagination, IamLoginTraceVO.class);
+    public JsonResult getViewObjectListMapping(IamOperationLog entity, Pagination pagination) throws Exception{
+        QueryWrapper<IamOperationLog> queryWrapper = super.buildQueryWrapper(entity);
+        Integer status = getInteger("status");
+        if(status != null){
+            if(status.intValue() == 0){
+                queryWrapper.eq("status_code", 0);
+            }
+            else{
+                queryWrapper.gt("status_code", 0);
+            }
+        }
+        return super.getEntityListWithPaging(queryWrapper, pagination);
     }
 
-    /**
-    * 加载更多数据
-    * @return
-    * @throws Exception
-    */
-    @GetMapping("/attachMore")
-    public JsonResult attachMore(ModelMap modelMap) throws Exception {
-        // 获取关联数据字典AUTH_TYPE的KV
-        List<KeyValue> authTypeKvList = dictionaryService.getKeyValueList(Cons.DICTTYPE.AUTH_TYPE.name());
-        modelMap.put("authTypeKvList", authTypeKvList);
-        return JsonResult.OK(modelMap);
+    /***
+     * 根据资源id查询详情
+     * @param id ID
+     * @return
+     * @throws Exception
+     */
+    @Log(operation = Operation.LABEL_DETAIL)
+    @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
+    @GetMapping("/{id}")
+    public JsonResult getViewObjectMapping(@PathVariable("id") Long id) throws Exception{
+        IamOperationLog operationLog = super.getEntity(id);
+        return JsonResult.OK(operationLog);
     }
 
 }
