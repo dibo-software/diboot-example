@@ -8,22 +8,21 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * <Description>
- *
- * @author mazc
+ * 数据权限可访问范围ids
+ * @author www.dibo.ltd
  * @version v1.0
  * @date 2020/09/29
  */
 @Service
-public class DataAccessCheckImpl implements DataAccessInterface {
+public class DataAccessPermissionImpl implements DataAccessInterface {
 
     @Override
     public List<Long> getAccessibleIds(CheckpointType type) {
-        // 当前为部门及下属部门
         if(type.equals(CheckpointType.ORG)){
-            return Arrays.asList(1L, 2L);
+            // 当前用户可访问组织id
+            //return Arrays.asList(1L, 2L);
         }
-        return null;
+        return Arrays.asList(-1L);
     }
 
 }

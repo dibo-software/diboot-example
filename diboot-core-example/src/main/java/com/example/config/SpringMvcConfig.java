@@ -46,7 +46,8 @@ public class SpringMvcConfig implements WebMvcConfigurer{
        registry.addConverter(new DateConverter());
     }
 
-    /*
+    /**
+     * 自定义Fastjson转换
     @Bean
     @ConditionalOnMissingBean(HttpMessageConverters.class)
     public HttpMessageConverters fastJsonHttpMessageConverters() {

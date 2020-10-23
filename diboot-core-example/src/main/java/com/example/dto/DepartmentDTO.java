@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 /**
  * 部门查询DTO（动态按需自动构建Join查询）
- * @author Mazc@dibo.ltd
+ * @author www.dibo.ltd
  * @version v2.0
  * @date 2020/04/29
  */
