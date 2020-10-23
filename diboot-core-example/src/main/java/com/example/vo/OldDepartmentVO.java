@@ -13,27 +13,39 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.example.mapper;
+package com.example.vo;
 
-import com.diboot.core.mapper.BaseCrudMapper;
 import com.example.entity.Department;
-import com.example.vo.OldDepartmentVO;
+import com.example.entity.Organization;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * 无需手写，启用devtools，该文件将自动生成
  */
-/**
- * 部门Mapper
- * @author www.dibo.ltd
- * @version 2018/12/22
- */
-public interface DepartmentMapper extends BaseCrudMapper<Department> {
 
-    /**
-     * 示例演示Mybatis XML方式实现关联对象绑定
-     * @param id
-     * @return
-     */
-    OldDepartmentVO getDepartmentVOByMybatisXML(Long id);
+/**
+ * @author www.dibo.ltd
+ * @version v2.0
+ * @date 2019/1/5
+ */
+@Getter @Setter @Accessors(chain = true)
+public class OldDepartmentVO extends Department {
+    private static final long serialVersionUID = -362116388664907912L;
+
+    // 直接关联Entity中的某字段
+    private String orgName;
+
+    // 直接关联Entity
+    private Organization organization;
+
+    // 直接关联多个Entity
+    private List<Department> children;
+
+    // 通过中间表的多-多关联Entity单字段集合
+    private List<Long> childrenIds;
 
 }
