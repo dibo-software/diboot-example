@@ -18,6 +18,7 @@ package com.example.controller;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.diboot.core.binding.Binder;
+import com.diboot.core.binding.QueryBuilder;
 import com.diboot.core.exception.BusinessException;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.JsonResult;
@@ -67,10 +68,19 @@ public class DepartmentController extends BaseCustomCrudRestController<Departmen
     @GetMapping("/listWithDTO")
     public JsonResult getVOList(DepartmentDTO departmentDto, Pagination pagination) throws Exception{
         // DTO转换为QueryWrapper，若无@BindQuery注解默认映射为等于=条件，有注解映射为注解条件。
-        // 如果查询条件包含关联表字段，则自动构建关联查询，否则构建为单表查询
+
+        // 步骤一：构建 （如果查询条件包含关联表字段，则自动构建关联查询，否则构建为单表查询）
+        // 方式1：调用super构建，默认【只取请求参数中的字段】进行构建
         QueryWrapper<Department> queryWrapper = super.buildQueryWrapper(departmentDto);
-        // 查询当前页的Entity主表数据
-        List<Department> entityList = Binder.joinQueryList(queryWrapper, Department.class, pagination);
+        // 方式2：调用QueryBuilder构建，取对象中的【全部非空字段】进行构建
+        //QueryWrapper<Department> queryWrapper = QueryBuilder.toQueryWrapper(departmentDto);
+
+        // 步骤二：查询（执行queryWrapper查询，得到entity/entityList）
+        // 方式1：通过Binder.joinQueryList 查询当前页的Entity主表数据
+        //List<Department> entityList = Binder.joinQueryList(queryWrapper, Department.class, pagination);
+        // 方式2：通过BaseService.getEntityList 进行查询
+        List<Department> entityList = departmentService.getEntityList(queryWrapper, pagination);
+
         // 转换VO中注解绑定的关联
         List<DepartmentVO> voList = Binder.convertAndBindRelations(entityList, DepartmentVO.class);
         // 返回结果

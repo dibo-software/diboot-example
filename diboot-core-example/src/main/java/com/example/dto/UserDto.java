@@ -17,6 +17,7 @@ package com.example.dto;
 
 import com.diboot.core.binding.query.BindQuery;
 import com.diboot.core.binding.query.Comparison;
+import com.diboot.core.util.D;
 import com.example.entity.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,10 +44,20 @@ public class UserDto extends User{
     @BindQuery(comparison = Comparison.IN, field = "gender")
     private String[] genders;
 
-    @BindQuery(comparison = Comparison.BETWEEN_BEGIN, field = "create_time")
+    /**
+     * 创建时间-起始
+     */
+    @BindQuery(comparison = Comparison.GE, field = "createTime")
     private Date createTimeBegin;
 
-    @BindQuery(comparison = Comparison.BETWEEN_END, field = "create_time")
+    /**
+     * 创建时间-截止
+     */
+    @BindQuery(comparison = Comparison.LT, field = "createTime")
     private Date createTimeEnd;
 
+    public UserDto setCreateTimeEnd(Date createTimeEnd) {
+        this.createTimeEnd = D.nextDay(createTimeEnd);
+        return this;
+    }
 }

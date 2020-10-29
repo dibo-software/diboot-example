@@ -40,10 +40,6 @@ import java.util.List;
 public class UserVO extends User {
     private static final long serialVersionUID = 3526115343377985725L;
 
-    // 绑定数据字典枚举
-    @BindDict(type="GENDER", field = "gender")
-    private String genderLabel;
-
     // 字段关联
     @BindField(entity= Department.class, field="name", condition="this.department_id=id AND parent_id IS NOT NULL")
     private String deptName;
@@ -65,5 +61,9 @@ public class UserVO extends User {
     // 支持通过中间表的多-多关联Entity单字段集合
     @BindFieldList(entity = Role.class, field = "code", condition="this.id=user_role.user_id AND user_role.role_id=id")
     private List<String> roleCodes;
+
+    // 绑定数据字典枚举
+    @BindDict(type="GENDER", field = "gender")
+    private String genderLabel;
 
 }
