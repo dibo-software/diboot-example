@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.EmployeeMapper">
+
+    <!-- 示例演示Mybatis XML方式实现关联对象绑定。
+    此处仅为了展示传统 Mybatis 项目如何做关联映射绑定。
+    使用diboot无需如此繁琐，一行注解即可绑定，具体参考: DepartmentVO -->
+
+    <!-- 定义结果集 -->
+    <resultMap id="EmployeeVOResultMap" type="com.example.vo.EmployeeVO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="departmentId" column="department_id"/>
+        <result property="birthdate" column="birthdate"/>
+
+        <!-- 关联其他表的id-name转换 -->
+        <result property="departmentName" column="department_name"/>
+
+        <!-- 关联员工档案 -->
+        <association property="profile" javaType="com.example.entity.EmployeeProfile">
+            <id property="id" column="prof_id"/>
+            <result property="idNumber" column="id_number"/>
+            <!-- 档案表其他字段映射 -->
+        </association>
+
+        <!-- 关联工作履历 -->
+        <collection property="workExperienceList" ofType="com.example.entity.WorkExperience">
+            <id property="id" column="we_id"/>
+            <result property="beginDate" column="begin_date"/>
+            <result property="endDate" column="end_date"/>
+            <!-- 工作履历表其他字段映射 -->
+        </collection>
+
+    </resultMap>
+
+    <!-- 定义查询SQL -->
+    <select id="getEmployeeVOList" parameterType="Long" resultMap="EmployeeVOResultMap">
+        SELECT  self.id, self.name, self.birthdate, self.department_id, dept.name AS department_name,
+            prof.id AS prof_id, prof.id_number,
+            we.id AS we_id, we.begin_date, we.end_date
+        FROM employee self
+        LEFT JOIN department dept ON self.department_id=dept.id
+        LEFT JOIN employee_profile prof ON self.id=prof.employee_id
+        LEFT JOIN work_experience we ON self.id=we.employee_id
+        <where>
+            <if test="id != null">self.id = #{id},</if>
+            <!-- 其他查询条件 -->
+        </where>
+    </select>
+
+</mapper>

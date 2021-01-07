@@ -1,17 +1,5 @@
 ## diboot-core 示例项目
 
-[diboot-core](https://github.com/dibo-software/diboot-v2/tree/master/diboot-core) 精简内核主要实现了：
-1. 单表CRUD无SQL
-   > 基于Mybatis-Plus实现（Mybatis-Plus具备通用Mapper方案和灵活的查询构造器）
-2. 关联查询无SQL（注解自动绑定）
-   > 扩展实现了多表关联查询的无SQL方案，只需要一个简单注解@Bind*，就可以实现关联对象（含字段、实体、实体集合等）的数据绑定，且实现方案是将关联查询拆解为单表查询，保障最佳性能。
-3. 数据字典无SQL（注解自动绑定）
-   > 通过@BindDict注解实现数据字典(枚举)的存储值value与显示值name的转换。
-4. Entity/DTO自动转换为QueryWrapper
-   > @BindQuery注解绑定字段参数对应的查询条件类型，Controller中直接绑定转换为QueryWrapper，无需再手动构建QueryWrapper查询条件
-5. 其他常用工具类的最佳实践封装
-   > 字符串处理S、常用校验V、日期D、扩展的BeanUtils等
-   
 本示例展示基于diboot-core的单表CRUD和多表关联的无SQL、Entity/DTO自动转换为QueryWrapper等的使用样例。
 
 ### example运行步骤：

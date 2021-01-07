@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.diboot.core.binding.parser.ParserCache;
 import com.diboot.core.controller.BaseCrudRestController;
+import com.diboot.core.dto.AttachMoreDTO;
 import com.diboot.core.entity.Dictionary;
 import com.diboot.core.entity.ValidList;
 import com.diboot.core.service.BaseService;
@@ -12,7 +13,6 @@ import com.diboot.core.util.ContextHelper;
 import com.diboot.core.util.S;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.*;
-import com.example.dto.AttachMoreDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
