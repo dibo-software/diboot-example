@@ -15,14 +15,19 @@
  */
 package com.example.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.diboot.core.binding.Binder;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.Pagination;
 import com.example.entity.User;
+import com.example.service.UserService;
 import com.example.vo.UserVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 无需手写，启用devtools，该文件将自动生成
@@ -37,6 +42,9 @@ import java.io.Serializable;
 @RequestMapping("/user")
 public class UserController extends BaseCustomCrudRestController<User> {
 
+    @Autowired
+    private UserService userService;
+
     /***
      * 查询ViewObject的分页数据
      * <p>
@@ -47,7 +55,16 @@ public class UserController extends BaseCustomCrudRestController<User> {
      */
     @GetMapping("/list")
     public JsonResult getViewObjectListWithMapping(User entity, Pagination pagination) throws Exception{
+
         return super.getViewObjectList(entity, pagination, UserVO.class);
+
+//        QueryWrapper<User> queryWrapper = super.buildQueryWrapper(entity);
+//        List<UserVO> voList = this.getService().getViewObjectList(queryWrapper, pagination, UserVO.class);
+
+//        List<User> entityList = userService.getEntityList(queryWrapper, pagination);
+//        List<UserVO> voList = Binder.convertAndBindRelations(entityList, UserVO.class);
+
+//        return JsonResult.OK(voList).bindPagination(pagination);
     }
 
     /***
@@ -57,8 +74,15 @@ public class UserController extends BaseCustomCrudRestController<User> {
      * @throws Exception
      */
     @GetMapping("/{id}")
-    public JsonResult getViewObjectWithMapping(@PathVariable("id") Serializable id) throws Exception{
+    public JsonResult getViewObjectWithMapping(@PathVariable("id") Long id) throws Exception{
         return super.getViewObject(id, UserVO.class);
+
+        //UserVO vo = userService.getViewObject(id, UserVO.class);
+
+        //User entity = userService.getEntity(id);
+        //UserVO vo = Binder.convertAndBindRelations(entity, UserVO.class);
+
+        //return new JsonResult(vo);
     }
 
     /***

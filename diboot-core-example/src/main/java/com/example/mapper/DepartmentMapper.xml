@@ -17,7 +17,6 @@
 
         <!-- 关联其他表的id-name转换 -->
         <result property="orgName" column="org_name"/>
-
         <!-- 关联单位 -->
         <association property="organization" javaType="com.example.entity.Organization">
             <id property="id" column="org_id"/>
@@ -40,7 +39,6 @@
         <collection property="childrenIds" ofType="Long">
             <id property="id" column="chd_id"/>
         </collection>
-
     </resultMap>
 
     <!-- 定义查询SQL -->

@@ -1,24 +1,7 @@
-/*
- * Copyright (c) 2015-2020, www.dibo.ltd (service@dibo.ltd).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.example.iam.controller.iam;
 
 import com.diboot.core.controller.BaseController;
-import com.diboot.core.exception.BusinessException;
 import com.diboot.core.vo.JsonResult;
-import com.diboot.core.vo.Status;
 import com.diboot.iam.annotation.BindPermission;
 import com.diboot.iam.annotation.Log;
 import com.diboot.iam.auth.AuthServiceFactory;
@@ -28,7 +11,10 @@ import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
 import com.diboot.iam.vo.IamRoleVO;
+import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.utils.CaptchaUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,17 +27,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 建议启用devtools，该文件由diboot-devtools自动生成
+ * 启用devtools，该文件由diboot-devtools自动生成
  */
 /**
 * IAM身份认证/申请Token接口
-* @author www.dibo.ltd
-* @version 1.0.1
-* @date 2020-03-18
-* Copyright © dibo.ltd
+* @author MyName
+* @version 1.0
+* @date 2020-11-28
+* Copyright © MyCompany
 */
 @RestController
 @Slf4j
+@Api(tags = {"身份认证"})
 @BindPermission(name = "身份认证", code = "AUTH")
 public class AuthTokenController extends BaseController {
     @Autowired
@@ -60,9 +47,11 @@ public class AuthTokenController extends BaseController {
     /**
     * 获取验证码
     */
+    @ApiOperation(value = "获取验证码")
     @GetMapping("/auth/captcha")
     public void captcha(HttpServletResponse response) throws Exception {
-        CaptchaUtil.out(4, request, response);
+        ArithmeticCaptcha captcha = new ArithmeticCaptcha();
+        CaptchaUtil.out(captcha, request, response);
     }
 
     /**
@@ -71,6 +60,7 @@ public class AuthTokenController extends BaseController {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "登录获取token")
     @PostMapping("/auth/login")
     public JsonResult login(@RequestBody PwdCredential credential) throws Exception{
         // 验证码校验
@@ -87,7 +77,8 @@ public class AuthTokenController extends BaseController {
     * @return
     * @throws Exception
     */
-    @Log(businessObj = "IamUser", operation = "退出")
+    @ApiOperation(value = "退出登录")
+		@Log(businessObj = "LoginUser", operation = "退出")
     @PostMapping("/logout")
     public JsonResult logout() throws Exception{
         IamSecurityUtils.logout();
@@ -98,13 +89,14 @@ public class AuthTokenController extends BaseController {
     * 获取用户角色权限信息
     * @return
     */
+    @ApiOperation(value = "获取用户角色权限信息")
     @GetMapping("/auth/userInfo")
     public JsonResult getUserInfo(){
         Map<String, Object> data = new HashMap<>();
         // 获取当前登录用户对象
         IamUser currentUser = IamSecurityUtils.getCurrentUser();
         if(currentUser == null){
-            throw new BusinessException(Status.FAIL_INVALID_TOKEN);
+            return JsonResult.OK();
         }
         data.put("name", currentUser.getRealname());
         // 角色权限数据
@@ -118,6 +110,7 @@ public class AuthTokenController extends BaseController {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "心跳接口")
     @PostMapping("/iam/ping")
     public JsonResult ping() throws Exception{
         return JsonResult.OK();

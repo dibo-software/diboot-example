@@ -1,18 +1,3 @@
-/*
- * Copyright (c) 2015-2020, www.dibo.ltd (service@dibo.ltd).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.example.iam.controller.iam;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -30,13 +15,15 @@ import com.diboot.iam.annotation.Log;
 import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.config.Cons;
 import com.diboot.iam.dto.IamRoleFormDTO;
-import com.diboot.iam.entity.IamFrontendPermission;
+import com.diboot.iam.entity.IamResourcePermission;
 import com.diboot.iam.entity.IamRole;
-import com.diboot.iam.service.IamFrontendPermissionService;
-import com.diboot.iam.service.IamRolePermissionService;
+import com.diboot.iam.service.IamResourcePermissionService;
+import com.diboot.iam.service.IamRoleResourceService;
 import com.diboot.iam.service.IamRoleService;
-import com.diboot.iam.vo.IamFrontendPermissionListVO;
+import com.diboot.iam.vo.IamResourcePermissionListVO;
 import com.diboot.iam.vo.IamRoleVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,18 +32,19 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * 建议启用devtools，该文件由diboot-devtools自动生成
+ * 启用devtools，该文件由diboot-devtools自动生成
  */
 /**
 * 角色相关Controller
-* @author www.dibo.ltd
-* @version 1.0.1
-* @date 2020-03-18
-* Copyright © dibo.ltd
+* @author MyName
+* @version 1.0
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
 */
 @RestController
 @RequestMapping("/iam/role")
 @Slf4j
+@Api(tags = {"角色"})
 @BindPermission(name = "角色")
 public class IamRoleController extends BaseCrudRestController<IamRole> {
 
@@ -64,10 +52,10 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     private IamRoleService iamRoleService;
 
     @Autowired
-    private IamFrontendPermissionService iamFrontendPermissionService;
+    private IamResourcePermissionService iamResourcePermissionService;
 
     @Autowired
-    private IamRolePermissionService iamRolePermissionService;
+    private IamRoleResourceService iamRoleResourceService;
 
     /***
     * 查询ViewObject的分页数据
@@ -77,6 +65,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "获取列表分页数据")
     @Log(operation = Operation.LABEL_LIST)
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
@@ -90,6 +79,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "根据ID获取详情数据")
     @Log(operation = Operation.LABEL_DETAIL)
     @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
@@ -97,10 +87,10 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
         IamRoleVO roleVO = iamRoleService.getViewObject(id, IamRoleVO.class);
         if (V.notEmpty(roleVO.getPermissionList())){
             List<Long> permissionIdList = BeanUtils.collectIdToList(roleVO.getPermissionList());
-            List<IamFrontendPermissionListVO> permissionVOList = iamFrontendPermissionService.getViewObjectList(
-                Wrappers.<IamFrontendPermission>lambdaQuery().in(IamFrontendPermission::getId, permissionIdList),
+            List<IamResourcePermissionListVO> permissionVOList = iamResourcePermissionService.getViewObjectList(
+                Wrappers.<IamResourcePermission>lambdaQuery().in(IamResourcePermission::getId, permissionIdList),
                 null,
-                IamFrontendPermissionListVO.class
+                IamResourcePermissionListVO.class
             );
             permissionVOList = BeanUtils.buildTree(permissionVOList);
             roleVO.setPermissionVOList(permissionVOList);
@@ -114,7 +104,8 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
-    @Log(operation = Operation.LABEL_CREATE)
+    @ApiOperation(value = "新建数据")
+		@Log(operation = Operation.LABEL_CREATE)
     @BindPermission(name = Operation.LABEL_CREATE, code = Operation.CODE_CREATE)
     @PostMapping("/")
     public JsonResult createEntityMapping(@Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
@@ -127,7 +118,8 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return JsonResult
     * @throws Exception
     */
-    @Log(operation = Operation.LABEL_UPDATE)
+    @ApiOperation(value = "根据ID更新数据")
+		@Log(operation = Operation.LABEL_UPDATE)
     @BindPermission(name = Operation.LABEL_UPDATE, code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
     public JsonResult updateEntityMapping(@PathVariable("id") Long id, @Valid @RequestBody IamRoleFormDTO roleFormDTO) throws Exception {
@@ -140,7 +132,8 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
-    @Log(operation = Operation.LABEL_DELETE)
+    @ApiOperation(value = "根据ID删除数据")
+		@Log(operation = Operation.LABEL_DELETE)
     @BindPermission(name = Operation.LABEL_DELETE, code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
     public JsonResult deleteEntityMapping(@PathVariable("id")Long id) throws Exception {
@@ -152,6 +145,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "获取所有角色键值列表")
     @GetMapping("kvList")
     public JsonResult getKvList() throws Exception{
     List<KeyValue> kvList = iamRoleService.getKeyValueList(Wrappers.<IamRole>lambdaQuery().select(IamRole::getId, IamRole::getName));
@@ -164,6 +158,7 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     * @param code
     * @return
     */
+    @ApiOperation(value = "检查编码是否重复")
     @GetMapping("/checkCodeDuplicate")
     public JsonResult checkCodeDuplicate(@RequestParam(required = false) Long id, @RequestParam String code) {
         if (V.notEmpty(code)) {
@@ -201,12 +196,12 @@ public class IamRoleController extends BaseCrudRestController<IamRole> {
     @Override
     protected void afterCreated(Object entity) throws Exception {
         IamRoleFormDTO roleFormDTO = (IamRoleFormDTO) entity;
-        iamRolePermissionService.createRolePermissionRelations(roleFormDTO.getId(), roleFormDTO.getPermissionIdList());
+        iamRoleResourceService.createRoleResourceRelations(roleFormDTO.getId(), roleFormDTO.getPermissionIdList());
     }
 
     @Override
     protected void afterUpdated(Object entity) throws Exception {
         IamRoleFormDTO roleFormDTO = (IamRoleFormDTO) entity;
-        iamRolePermissionService.updateRolePermissionRelations(roleFormDTO.getId(), roleFormDTO.getPermissionIdList());
+        iamRoleResourceService.updateRoleResourceRelations(roleFormDTO.getId(), roleFormDTO.getPermissionIdList());
     }
 }

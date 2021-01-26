@@ -1,18 +1,3 @@
-/*
- * Copyright (c) 2015-2020, www.dibo.ltd (service@dibo.ltd).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.example.iam.controller.iam;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -27,41 +12,48 @@ import com.diboot.iam.annotation.BindPermission;
 import com.diboot.iam.annotation.Log;
 import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.config.Cons;
+import com.diboot.iam.dto.BaseUserInfoDTO;
 import com.diboot.iam.dto.ChangePwdDTO;
 import com.diboot.iam.dto.IamUserAccountDTO;
+import com.diboot.iam.dto.IamUserSearchDTO;
 import com.diboot.iam.entity.IamAccount;
 import com.diboot.iam.entity.IamRole;
 import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamAccountService;
+import com.diboot.iam.service.IamOrgService;
 import com.diboot.iam.service.IamRoleService;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
+import com.diboot.iam.vo.IamUserOrgVO;
 import com.diboot.iam.vo.IamUserVO;
-import com.example.iam.dto.BaseUserInfoDTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 建议启用devtools，该文件由diboot-devtools自动生成
- */
-/**
 * 系统用户相关Controller
-* @author www.dibo.ltd
-* @version 1.0.1
-* @date 2020-03-18
-* Copyright © dibo.ltd
+* @author JerryMa
+* @version 1.0
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
 */
 @RestController
 @RequestMapping("/iam/user")
 @Slf4j
+@Api(tags = {"用户"})
 @BindPermission(name = "用户")
 public class IamUserController extends BaseCrudRestController<IamUser> {
 
+    @Autowired
+    private IamOrgService iamOrgService;
+    
     @Autowired
     private IamUserService iamUserService;
 
@@ -79,11 +71,28 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "获取列表分页数据")
     @Log(operation = Operation.LABEL_LIST)
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
-    public JsonResult getViewObjectListMapping(IamUser entity, Pagination pagination) throws Exception{
-        return super.getViewObjectList(entity, pagination, IamUserVO.class);
+    public JsonResult getViewObjectListMapping(IamUserSearchDTO dto, Pagination pagination) throws Exception{
+        Long orgId = dto.getOrgId();
+        dto.setOrgId(null);
+        QueryWrapper<IamUser> queryWrapper = super.buildQueryWrapperByQueryParams(dto);
+        // 获取当前部门及所有下属部门的人员列表
+        if (V.notEmpty(orgId) && !V.equals(orgId, 0L)) {
+            List<Long> orgIds = new ArrayList<Long>(){{
+                add(orgId);
+            }};
+            // 获取所有下级部门列表
+            List<Long> childrenOrgIds = iamOrgService.getChildOrgIds(orgId);
+            orgIds.addAll(childrenOrgIds);
+            queryWrapper.lambda().in(IamUser::getOrgId, orgIds);
+        }
+        // 查询当前页的数据
+        List<IamUserVO> voList = iamUserService.getViewObjectListSortByOrg(queryWrapper, pagination, IamUserVO.class);
+        // 返回结果
+        return JsonResult.OK(voList).bindPagination(pagination);
     }
 
     /***
@@ -92,11 +101,12 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "根据ID获取详情数据")
     @Log(operation = Operation.LABEL_DETAIL)
     @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
     public JsonResult getViewObjectMapping(@PathVariable("id")Long id) throws Exception{
-        return super.getViewObject(id, IamUserVO.class);
+        return super.getViewObject(id, IamUserOrgVO.class);
     }
 
     /***
@@ -105,7 +115,8 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @Log(operation = Operation.LABEL_CREATE)
+    @ApiOperation(value = "新建数据")
+		@Log(operation = Operation.LABEL_CREATE)
     @BindPermission(name = Operation.LABEL_CREATE, code = Operation.CODE_CREATE)
     @PostMapping("/")
     public JsonResult createEntityMapping(@Valid @RequestBody IamUserAccountDTO iamUserAccountDTO) throws Exception {
@@ -119,6 +130,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return JsonResult
     * @throws Exception
     */
+    @ApiOperation(value = "根据ID更新数据")
     @Log(operation = Operation.LABEL_UPDATE)
     @BindPermission(name = Operation.LABEL_UPDATE, code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
@@ -133,6 +145,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "根据ID删除数据")
     @Log(operation = Operation.LABEL_DELETE)
     @BindPermission(name = Operation.LABEL_DELETE, code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
@@ -146,6 +159,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "获取更多关联数据")
     @GetMapping("/attachMore")
     public JsonResult attachMore(ModelMap modelMap) throws Exception {
         // 获取关联数据字典USER_STATUS的KV
@@ -168,6 +182,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "获取用户名")
     @GetMapping("/getUsername/{id}")
     public JsonResult getUsername(@PathVariable("id")Long id) throws Exception{
         IamAccount account = iamAccountService.getSingleEntity(
@@ -183,6 +198,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "获取指定orgId下的用户列表")
     @GetMapping("/getUserList/{orgId}")
     public JsonResult getUserList(@PathVariable("orgId") Long orgId, IamUser iamUser, Pagination pagination) throws Exception {
         QueryWrapper<IamUser> wrapper = super.buildQueryWrapper(iamUser);
@@ -198,6 +214,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
+    @ApiOperation(value = "获取当前用户信息")
     @GetMapping("/getCurrentUserInfo")
     public JsonResult getCurrentUserInfo() throws Exception{
         IamUser iamUser = IamSecurityUtils.getCurrentUser();
@@ -211,7 +228,8 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @Log(operation = "更新个人信息")
+    @ApiOperation(value = "更新当前用户信息")
+		@Log(operation = "更新个人信息")
     @PostMapping("/updateCurrentUserInfo")
     public JsonResult updateCurrentUserInfo(@Valid @RequestBody BaseUserInfoDTO baseUserInfoDTO) throws Exception{
         IamUser iamUser = IamSecurityUtils.getCurrentUser();
@@ -233,7 +251,8 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @return
     * @throws Exception
     */
-    @Log(operation = "修改密码")
+    @ApiOperation(value = "更改密码")
+		@Log(operation = "更改密码")
     @PostMapping("/changePwd")
     public JsonResult changePwd(@Valid @RequestBody ChangePwdDTO changePwdDTO) throws Exception{
         IamUser iamUser = IamSecurityUtils.getCurrentUser();
@@ -255,6 +274,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @param username
     * @return
     */
+    @ApiOperation(value = "校验用户名是否重复")
     @GetMapping("/checkUsernameDuplicate")
     public JsonResult checkUsernameDuplicate(@RequestParam(required = false) Long id, @RequestParam String username) {
         if (V.notEmpty(username)) {
@@ -278,6 +298,7 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     * @param userNum
     * @return
     */
+    @ApiOperation(value = "校验用户编号是否重复")
     @GetMapping("/checkUserNumDuplicate")
     public JsonResult checkUserNumDuplicate(@RequestParam(required = false) Long id, @RequestParam String userNum) {
         if (V.notEmpty(userNum)) {
