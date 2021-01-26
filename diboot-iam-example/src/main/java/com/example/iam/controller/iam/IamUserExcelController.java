@@ -5,21 +5,22 @@ import com.diboot.core.util.BeanUtils;
 import com.diboot.core.util.D;
 import com.diboot.core.util.V;
 import com.diboot.core.vo.JsonResult;
-import com.diboot.core.vo.Pagination;
 import com.diboot.core.vo.Status;
 import com.diboot.file.controller.BaseExcelFileController;
-import com.diboot.file.entity.UploadFile;
 import com.diboot.file.excel.listener.FixedHeadExcelListener;
-import com.diboot.file.service.UploadFileService;
 import com.diboot.file.util.ExcelHelper;
 import com.diboot.iam.annotation.BindPermission;
 import com.diboot.iam.annotation.Log;
+import com.diboot.iam.annotation.Operation;
 import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.vo.IamUserVO;
 import com.example.iam.excel.listener.IamUserImportExcelListener;
 import com.example.iam.excel.model.IamUserExportModel;
 import com.example.iam.excel.model.IamUserImportModel;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,41 +35,28 @@ import java.util.List;
  * 启用devtools，该文件由diboot-devtools自动生成
  */
 /**
- * 用户Excel上传相关Controller
- * @author MyName
- * @version 1.0
- * @date 2020-11-28
- * Copyright © MyCompany
- */
-@RequestMapping("/iam/user/excel")
+* 用户Excel上传下载Controller
+* @author MyName
+* @version 1.0
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
+*/
 @RestController
+@RequestMapping("/iam/user/excel")
+@Slf4j
+@Api(tags = {"用户Excel上传下载"})
+@BindPermission(name = "用户Excel上传下载")
 public class IamUserExcelController extends BaseExcelFileController {
 
     @Autowired
-    private UploadFileService uploadFileService;
-
-    @Autowired
     private IamUserService iamUserService;
-
-    /**
-     * 获取文件上传记录（分页）
-     *
-     * @param pagination
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/list")
-    public JsonResult list(Pagination pagination) throws Exception {
-        List<UploadFile> uploadFileList = uploadFileService.getEntityList(null, pagination);
-        return JsonResult.OK(uploadFileList).bindPagination(pagination);
-    }
 
     /**
      * 下载示例文件
      * @param response
      * @throws Exception
      */
-    @BindPermission(name = "导入用户示例文件下载")
+    @ApiOperation(value = "下载示例文件")
     @GetMapping("/downloadExample")
     public void downloadExample(HttpServletResponse response) throws Exception{
         String fileName = "用户导入示例.xlsx";
@@ -79,11 +67,20 @@ public class IamUserExcelController extends BaseExcelFileController {
      * 预览数据
      * @throws Exception
      */
+    @ApiOperation(value = "excel预览")
+    @Log(operation = "Excel预览", businessObj = "IamUser")
     @PostMapping("/preview")
     public JsonResult preview(@RequestParam("file") MultipartFile file) throws Exception {
         return super.excelPreview(file);
     }
-
+    
+		/***
+     * 预览保存
+     * @throws Exception
+     */
+    @ApiOperation(value = "excel预览导入用户")
+		@Log(operation = "Excel预览导入用户", businessObj = "IamUser")
+    @BindPermission(name = Operation.LABEL_IMPORT, code = Operation.CODE_IMPORT)
     @PostMapping("/previewSave")
     public JsonResult previewSave(@RequestParam(BaseExcelFileController.PREVIEW_FILE_NAME) String previewFileName,
                                   @RequestParam(BaseExcelFileController.ORIGIN_FILE_NAME) String originFileName,
@@ -92,10 +89,12 @@ public class IamUserExcelController extends BaseExcelFileController {
     }
 
     /***
-     * 上传excel并保存
+     * excel导入用户
      * @throws Exception
      */
-    @Log(operation = "导入用户Excel", businessObj = "IamUser")
+    @ApiOperation(value = "excel导入用户")
+		@Log(operation = "Excel导入用户", businessObj = "IamUser")
+    @BindPermission(name = Operation.LABEL_IMPORT, code = Operation.CODE_IMPORT)
     @PostMapping("/upload")
     public JsonResult upload(@RequestParam("file") MultipartFile file) throws Exception {
         return super.uploadExcelFile(file, IamUser.class);
@@ -107,7 +106,9 @@ public class IamUserExcelController extends BaseExcelFileController {
      * @return
      * @throws Exception
      */
-    @Log(operation = "导出用户", businessObj = "IamUser")
+    @ApiOperation(value = "获取列表分页数据")
+		@Log(operation = "导出用户列表", businessObj = "IamUser")
+    @BindPermission(name = Operation.LABEL_EXPORT, code = Operation.CODE_EXPORT)
     @GetMapping("/export")
     public JsonResult export(IamUser iamUser, HttpServletResponse response) throws Exception {
         QueryWrapper<IamUser> queryWrapper = super.buildQueryWrapper(iamUser);
@@ -144,4 +145,5 @@ public class IamUserExcelController extends BaseExcelFileController {
     protected FixedHeadExcelListener getExcelDataListener() {
         return new IamUserImportExcelListener();
     }
+
 }

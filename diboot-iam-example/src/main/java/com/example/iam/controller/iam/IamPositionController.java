@@ -17,6 +17,8 @@ import com.diboot.iam.entity.IamPosition;
 import com.diboot.iam.entity.IamUserPosition;
 import com.diboot.iam.service.IamPositionService;
 import com.diboot.iam.vo.IamPositionVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,38 +31,58 @@ import java.util.List;
  */
 /**
 * 岗位 相关Controller
-* @author mazc@dibo.ltd
-* @version 2.0
-* @date 2019-12-03
+* @author JerryMa
+* @version 1.0
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
 */
+@Api(tags = {"岗位"})
 @RestController
 @RequestMapping("/iam/position")
+@BindPermission(name = "岗位")
 @Slf4j
 public class IamPositionController extends BaseCrudRestController<IamPosition> {
-
     @Autowired
     private IamPositionService iamPositionService;
 
     /***
-     * 获取所有岗位列表
-     * @param entity
-     * @param pagination
-     * @return
-     * @throws Exception
-     */
+    * 查询ViewObject的分页数据
+    * <p>
+    * url请求参数示例: /list?field=abc&pageIndex=1&orderBy=abc:DESC
+    * </p>
+    * @return
+    * @throws Exception
+    */
+    @ApiOperation(value = "获取列表分页数据")
+    @Log(operation = Operation.LABEL_LIST)
+    @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
-    @BindPermission(name = "查看列表", code = Operation.CODE_LIST)
     public JsonResult getViewObjectListMapping(IamPosition entity, Pagination pagination) throws Exception{
         return super.getViewObjectList(entity, pagination, IamPositionVO.class);
     }
 
+    /***
+    * 根据资源id查询ViewObject
+    * @param id ID
+    * @return
+    * @throws Exception
+    */
+    @ApiOperation(value = "根据ID获取详情数据")
+    @Log(operation = Operation.LABEL_DETAIL)
+    @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
+    @GetMapping("/{id}")
+    public JsonResult getViewObjectWithMapping(@PathVariable("id") Long id) throws Exception{
+        return super.getViewObject(id, IamPositionVO.class);
+    }
+    
     /***
      * 根据用户信息获取岗位列表
      * @param userType
      * @param userId
      * @return
      */
-    @BindPermission(name = "获取岗位信息", code = "listUserPositions")
+    @Log(operation = "根据用户信息获取岗位列表")
+    @BindPermission(name = "根据用户信息获取岗位列表", code = "listByUserInfo")
     @GetMapping("/listUserPositions/{userType}/{userId}")
     public JsonResult listUserPositionsByUser(@PathVariable("userType") String userType, @PathVariable("userId") Long userId) {
         List<IamUserPosition> userPositionList = iamPositionService.getUserPositionListByUser(userType, userId);
@@ -68,23 +90,12 @@ public class IamPositionController extends BaseCrudRestController<IamPosition> {
     }
 
     /***
-     * 根据资源id查询ViewObject
-     * @param id ID
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/{id}")
-    @BindPermission(name = "查看详情", code = Operation.CODE_DETAIL)
-    public JsonResult getViewObjectWithMapping(@PathVariable("id") Long id) throws Exception{
-        return super.getViewObject(id, IamPositionVO.class);
-    }
-
-    /***
-     * 创建资源对象
-     * @param entity
-     * @return JsonResult
-     * @throws Exception
-     */
+    * 创建资源对象
+    * @param entity
+    * @return JsonResult
+    * @throws Exception
+    */
+    @ApiOperation(value = "新建数据")
     @Log(operation = Operation.LABEL_CREATE)
     @BindPermission(name = Operation.LABEL_CREATE, code = Operation.CODE_CREATE)
     @PostMapping("/")
@@ -93,11 +104,12 @@ public class IamPositionController extends BaseCrudRestController<IamPosition> {
     }
 
     /***
-     * 根据ID更新资源对象
-     * @param entity
-     * @return JsonResult
-     * @throws Exception
-     */
+    * 根据ID更新资源对象
+    * @param entity
+    * @return JsonResult
+    * @throws Exception
+    */
+    @ApiOperation(value = "根据ID更新数据")
     @Log(operation = Operation.LABEL_UPDATE)
     @BindPermission(name = Operation.LABEL_UPDATE, code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
@@ -105,13 +117,13 @@ public class IamPositionController extends BaseCrudRestController<IamPosition> {
         return super.updateEntity(id, entity);
     }
 
-
     /***
-     * 删除岗位
-     * @param id
-     * @return
-     * @throws Exception
-     */
+    * 根据id删除资源对象
+    * @param id
+    * @return JsonResult
+    * @throws Exception
+    */
+    @ApiOperation(value = "根据ID删除数据")
     @Log(operation = Operation.LABEL_DELETE)
     @BindPermission(name = Operation.LABEL_DELETE, code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
@@ -124,6 +136,7 @@ public class IamPositionController extends BaseCrudRestController<IamPosition> {
      * @return
      * @throws Exception
      */
+    @BindPermission(name = "岗位键值列表", code = "kvList")
     @GetMapping("kvList")
     public JsonResult getKvList() throws Exception{
         List<KeyValue> kvList = iamPositionService.getKeyValueList(Wrappers.<IamPosition>lambdaQuery().select(IamPosition::getId, IamPosition::getName));
@@ -159,10 +172,11 @@ public class IamPositionController extends BaseCrudRestController<IamPosition> {
      * @throws Exception
      */
     @Log(operation = "设置用户岗位关系")
+    @BindPermission(name = "设置用户岗位关系", code = Operation.CODE_UPDATE)
     @PostMapping("/batchUpdateUserPositionRelations")
     public JsonResult batchUpdate(@RequestBody IamUserPositionBatchDTO userPositionBatchDTO) throws Exception {
         iamPositionService.updateUserPositionRelations(userPositionBatchDTO.getUserType(), userPositionBatchDTO.getUserId(), userPositionBatchDTO.getUserPositionList());
         return JsonResult.OK();
     }
 
-}
+} 

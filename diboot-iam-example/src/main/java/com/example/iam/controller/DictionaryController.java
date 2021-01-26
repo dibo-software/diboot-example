@@ -55,7 +55,8 @@ public class DictionaryController extends BaseCrudRestController<Dictionary> {
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/dictionary/list")
     public JsonResult getViewObjectListMapping(Dictionary entity, Pagination pagination) throws Exception{
-        QueryWrapper<Dictionary> queryWrapper = super.buildQueryWrapper(entity);
+        QueryWrapper<Dictionary> queryWrapper = super.buildQueryWrapperByQueryParams(entity);
+        queryWrapper.lambda().orderByAsc(Dictionary::getSortId, Dictionary::getId);
         List<DictionaryVO> voList = dictionaryService.getViewObjectList(queryWrapper, pagination, DictionaryVO.class);
         return JsonResult.OK(voList).bindPagination(pagination);
     }

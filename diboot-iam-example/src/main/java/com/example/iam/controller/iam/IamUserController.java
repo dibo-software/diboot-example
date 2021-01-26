@@ -15,10 +15,12 @@ import com.diboot.iam.config.Cons;
 import com.diboot.iam.dto.BaseUserInfoDTO;
 import com.diboot.iam.dto.ChangePwdDTO;
 import com.diboot.iam.dto.IamUserAccountDTO;
+import com.diboot.iam.dto.IamUserSearchDTO;
 import com.diboot.iam.entity.IamAccount;
 import com.diboot.iam.entity.IamRole;
 import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamAccountService;
+import com.diboot.iam.service.IamOrgService;
 import com.diboot.iam.service.IamRoleService;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
@@ -32,17 +34,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 启用devtools，该文件由diboot-devtools自动生成
- */
-/**
 * 系统用户相关Controller
-* @author MyName
+* @author JerryMa
 * @version 1.0
-* @date 2020-11-28
-* Copyright © MyCompany
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
 */
 @RestController
 @RequestMapping("/iam/user")
@@ -51,6 +51,9 @@ import java.util.List;
 @BindPermission(name = "用户")
 public class IamUserController extends BaseCrudRestController<IamUser> {
 
+    @Autowired
+    private IamOrgService iamOrgService;
+    
     @Autowired
     private IamUserService iamUserService;
 
@@ -72,8 +75,24 @@ public class IamUserController extends BaseCrudRestController<IamUser> {
     @Log(operation = Operation.LABEL_LIST)
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
-    public JsonResult getViewObjectListMapping(IamUser entity, Pagination pagination) throws Exception{
-        return super.getViewObjectList(entity, pagination, IamUserVO.class);
+    public JsonResult getViewObjectListMapping(IamUserSearchDTO dto, Pagination pagination) throws Exception{
+        Long orgId = dto.getOrgId();
+        dto.setOrgId(null);
+        QueryWrapper<IamUser> queryWrapper = super.buildQueryWrapperByQueryParams(dto);
+        // 获取当前部门及所有下属部门的人员列表
+        if (V.notEmpty(orgId) && !V.equals(orgId, 0L)) {
+            List<Long> orgIds = new ArrayList<Long>(){{
+                add(orgId);
+            }};
+            // 获取所有下级部门列表
+            List<Long> childrenOrgIds = iamOrgService.getChildOrgIds(orgId);
+            orgIds.addAll(childrenOrgIds);
+            queryWrapper.lambda().in(IamUser::getOrgId, orgIds);
+        }
+        // 查询当前页的数据
+        List<IamUserVO> voList = iamUserService.getViewObjectListSortByOrg(queryWrapper, pagination, IamUserVO.class);
+        // 返回结果
+        return JsonResult.OK(voList).bindPagination(pagination);
     }
 
     /***

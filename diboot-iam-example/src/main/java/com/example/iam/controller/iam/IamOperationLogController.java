@@ -46,7 +46,7 @@ public class IamOperationLogController extends BaseCrudRestController<IamOperati
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
     public JsonResult getViewObjectListMapping(IamOperationLog entity, Pagination pagination) throws Exception{
-        QueryWrapper<IamOperationLog> queryWrapper = super.buildQueryWrapper(entity);
+        QueryWrapper<IamOperationLog> queryWrapper = super.buildQueryWrapperByQueryParams(entity);
         Integer status = getInteger("status");
         if(status != null){
             if(status.intValue() == 0){

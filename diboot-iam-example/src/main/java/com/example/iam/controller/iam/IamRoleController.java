@@ -38,8 +38,8 @@ import java.util.List;
 * 角色相关Controller
 * @author MyName
 * @version 1.0
-* @date 2020-11-28
-* Copyright © MyCompany
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
 */
 @RestController
 @RequestMapping("/iam/role")

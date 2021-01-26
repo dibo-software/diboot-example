@@ -1,6 +1,7 @@
 package com.example.iam.controller.iam;
 
 import com.diboot.core.controller.BaseCrudRestController;
+import com.diboot.core.service.DictionaryService;
 import com.diboot.core.vo.JsonResult;
 import com.diboot.core.vo.KeyValue;
 import com.diboot.core.vo.Pagination;

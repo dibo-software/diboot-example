@@ -20,6 +20,8 @@ import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamOrgService;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.vo.IamOrgVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -33,47 +35,49 @@ import java.util.Map;
  * 启用devtools，该文件由diboot-devtools自动生成
  */
 /**
- * 组织机构 相关Controller
- *
- * @author mazc@dibo.ltd
- * @version 2.0
- * @date 2019-12-03
- */
+* 组织机构 相关Controller
+* @author MyName
+* @version 1.0
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
+*/
+@Api(tags = {"组织机构"})
 @RestController
 @RequestMapping("/iam/org")
+@BindPermission(name = "组织机构")
 @Slf4j
-@BindPermission(name = "单位")
 public class IamOrgController extends BaseCrudRestController<IamOrg> {
-
     @Autowired
     private IamOrgService iamOrgService;
     @Autowired
     private IamUserService iamUserService;
-
-    /**
-     * 查询ViewObject的分页数据
-     * <p>
-     * url请求参数示例: /list?field=abc&pageSize=20&pageIndex=1&orderBy=id
-     * </p>
-     * @return
-     * @throws Exception
-     */
+    
+    /***
+    * 查询ViewObject的分页数据
+    * <p>
+    * url请求参数示例: /list?field=abc&pageIndex=1&orderBy=abc:DESC
+    * </p>
+    * @return
+    * @throws Exception
+    */
+    @ApiOperation(value = "获取列表分页数据")
     @Log(operation = Operation.LABEL_LIST)
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
     public JsonResult getViewObjectListWithMapping(IamOrg entity, Pagination pagination) throws Exception {
-        QueryWrapper<IamOrg> queryWrapper = super.buildQueryWrapper(entity);
+        QueryWrapper<IamOrg> queryWrapper = super.buildQueryWrapperByQueryParams(entity);
         queryWrapper.lambda().orderByDesc(IamOrg::getSortId).orderByDesc(IamOrg::getId);
         List<IamOrgVO> voList = this.getService().getViewObjectList(queryWrapper, pagination, IamOrgVO.class);
         return JsonResult.OK(voList).bindPagination(pagination);
     }
 
-    /**
-     * 根据资源id查询ViewObject
-     * @param id ID
-     * @return
-     * @throws Exception
-     */
+    /***
+    * 根据资源id查询ViewObject
+    * @param id ID
+    * @return
+    * @throws Exception
+    */
+    @ApiOperation(value = "根据ID获取详情数据")
     @Log(operation = Operation.LABEL_DETAIL)
     @BindPermission(name = Operation.LABEL_DETAIL, code = Operation.CODE_DETAIL)
     @GetMapping("/{id}")
@@ -81,12 +85,13 @@ public class IamOrgController extends BaseCrudRestController<IamOrg> {
         return super.getViewObject(id, IamOrgVO.class);
     }
 
-    /**
-     * 新建组织信息
-     * @param entity
-     * @return
-     * @throws Exception
-     */
+    /***
+    * 创建资源对象
+    * @param entity
+    * @return JsonResult
+    * @throws Exception
+    */
+    @ApiOperation(value = "新建数据")
     @Log(operation = Operation.LABEL_CREATE)
     @BindPermission(name = Operation.LABEL_CREATE, code = Operation.CODE_CREATE)
     @PostMapping("/")
@@ -94,12 +99,13 @@ public class IamOrgController extends BaseCrudRestController<IamOrg> {
         return super.createEntity(entity);
     }
 
-    /**
-     * 更新组织信息
-     * @param entity
-     * @return JsonResult
-     * @throws Exception
-     */
+    /***
+    * 根据ID更新资源对象
+    * @param entity
+    * @return JsonResult
+    * @throws Exception
+    */
+    @ApiOperation(value = "根据ID更新数据")
     @Log(operation = Operation.LABEL_UPDATE)
     @BindPermission(name = Operation.LABEL_UPDATE, code = Operation.CODE_UPDATE)
     @PutMapping("/{id}")
@@ -107,17 +113,17 @@ public class IamOrgController extends BaseCrudRestController<IamOrg> {
         return super.updateEntity(id, entity);
     }
 
-    /**
-     * 删除组织结构
-     * @param id
-     * @return
-     * @throws Exception
-     */
+    /***
+    * 根据id删除资源对象
+    * @param id
+    * @return JsonResult
+    * @throws Exception
+    */
+    @ApiOperation(value = "根据ID删除数据")
     @Log(operation = Operation.LABEL_DELETE)
     @BindPermission(name = Operation.LABEL_DELETE, code = Operation.CODE_DELETE)
     @DeleteMapping("/{id}")
     public JsonResult deleteEntityWithMapping(@PathVariable("id") Long id) throws Exception {
-        // 仅允许叶子节点的节点进行删除操作
         boolean existChildren = iamOrgService.exists(IamOrg::getParentId, id);
         if (existChildren) {
             return JsonResult.FAIL_OPERATION("该部门存在子部门，不允许删除");
@@ -131,21 +137,23 @@ public class IamOrgController extends BaseCrudRestController<IamOrg> {
 
     /**
      * 获取根节点的组织树
-     * @return
-     * @throws Exception
      */
+    @ApiOperation(value = "获取组织树")
+    @BindPermission(name = "获取组织树", code = "tree")
     @GetMapping("/tree")
     public JsonResult getRootNodeOrgTree() throws Exception {
         List<IamOrgVO> orgVOList = iamOrgService.getOrgTree(IamOrg.VIRTUAL_ROOT_ID);
         return JsonResult.OK(orgVOList);
     }
-
+    
     /**
      * 获取指定节点的子节点
      * @param parentNodeId
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "查看子组织树")
+    @BindPermission(name = "查看子组织树", code = "subTree")
     @GetMapping("/tree/{parentNodeId}")
     public JsonResult getOrgChildNodes(@PathVariable("parentNodeId") Long parentNodeId) throws Exception {
         List<IamOrgVO> orgVOList = iamOrgService.getOrgTree(parentNodeId);
@@ -157,6 +165,8 @@ public class IamOrgController extends BaseCrudRestController<IamOrg> {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "获取子组织列表")
+    @BindPermission(name = "获取子组织列表", code = "children")
     @GetMapping("/childrenList/{parentNodeId}")
     public JsonResult getOrgChildList(@PathVariable("parentNodeId") Long parentNodeId, IamOrgDTO iamOrgDTO, Pagination pagination) throws Exception {
         QueryWrapper<IamOrg> wrapper = super.buildQueryWrapper(iamOrgDTO);
@@ -166,26 +176,28 @@ public class IamOrgController extends BaseCrudRestController<IamOrg> {
         return super.getEntityListWithPaging(wrapper, pagination);
     }
 
-    /**
+		/**
      * 列表排序
      * @param orgList
      * @return
      * @throws Exception
      */
-    @Log(operation = "列表排序")
+    @ApiOperation(value = "列表排序")
     @PostMapping("/sortList")
-    @BindPermission(name = "列表排序", code = Operation.CODE_UPDATE)
+    @Log(operation = "sortList")
+    @BindPermission(name = "列表排序", code = "sort")
     public JsonResult sortList(@RequestBody List<IamOrg> orgList) throws Exception {
         iamOrgService.sortList(orgList);
         return JsonResult.OK().msg("更新成功");
     }
-
+    
     /**
      * 检查code是否重复
      * @param id
      * @param code
      * @return
      */
+    @ApiOperation(value = "检查code编码是否重复")
     @GetMapping("/checkCodeDuplicate")
     public JsonResult checkCodeDuplicate(@RequestParam(required = false) Long id, @RequestParam String code) {
         if (V.notEmpty(code)) {
@@ -213,8 +225,6 @@ public class IamOrgController extends BaseCrudRestController<IamOrg> {
         modelMap.put("orgTypeKvList", orgTypeKvList);
         Map<String, KeyValue> orgTypeKvMap = BeanUtils.convertToStringKeyObjectMap(orgTypeKvList, BeanUtils.convertToFieldName(KeyValue::getV));
         modelMap.put("orgTypeKvMap", orgTypeKvMap);
-
         return JsonResult.OK(modelMap);
     }
-
-}
+} 

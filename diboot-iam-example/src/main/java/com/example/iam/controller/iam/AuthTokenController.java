@@ -11,6 +11,7 @@ import com.diboot.iam.entity.IamUser;
 import com.diboot.iam.service.IamUserService;
 import com.diboot.iam.util.IamSecurityUtils;
 import com.diboot.iam.vo.IamRoleVO;
+import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.utils.CaptchaUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +50,8 @@ public class AuthTokenController extends BaseController {
     @ApiOperation(value = "获取验证码")
     @GetMapping("/auth/captcha")
     public void captcha(HttpServletResponse response) throws Exception {
-        CaptchaUtil.out(4, request, response);
+        ArithmeticCaptcha captcha = new ArithmeticCaptcha();
+        CaptchaUtil.out(captcha, request, response);
     }
 
     /**

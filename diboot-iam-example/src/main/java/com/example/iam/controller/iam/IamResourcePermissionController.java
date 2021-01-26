@@ -32,17 +32,17 @@ import java.util.List;
  * 启用devtools，该文件由diboot-devtools自动生成
  */
 /**
-* 前端资源权限相关Controller
-* @author MyName
+* 系统资源权限相关Controller
+* @author JerryMa
 * @version 1.0
-* @date 2020-11-28
-* Copyright © MyCompany
+* @date 2021-01-24
+* Copyright © www.dibo.ltd
 */
 @RestController
-@RequestMapping("/iam/frontendPermission")
+@RequestMapping("/iam/resourcePermission")
 @Slf4j
-@Api(tags = {"前端资源权限"})
-@BindPermission(name = "前端资源权限")
+@Api(tags = {"系统资源权限"})
+@BindPermission(name = "系统资源权限")
 public class IamResourcePermissionController extends BaseCrudRestController<IamResourcePermission> {
 
     @Autowired
@@ -61,7 +61,7 @@ public class IamResourcePermissionController extends BaseCrudRestController<IamR
     @BindPermission(name = Operation.LABEL_LIST, code = Operation.CODE_LIST)
     @GetMapping("/list")
     public JsonResult getViewObjectListMapping(IamResourcePermission entity) throws Exception{
-        QueryWrapper<IamResourcePermission> queryWrapper = super.buildQueryWrapper(entity);
+        QueryWrapper<IamResourcePermission> queryWrapper = super.buildQueryWrapperByQueryParams(entity);
         queryWrapper.lambda().orderByDesc(IamResourcePermission::getSortId, IamResourcePermission::getId);
         List<IamResourcePermissionListVO> voList = iamResourcePermissionService.getViewObjectList(queryWrapper, null, IamResourcePermissionListVO.class);
         voList = BeanUtils.buildTree(voList);
@@ -144,8 +144,8 @@ public class IamResourcePermissionController extends BaseCrudRestController<IamR
         menuList = BeanUtils.buildTree(menuList);
         modelMap.put("menuList", menuList);
         // 获取关联数据字典USER_STATUS的KV
-        List<KeyValue> frontendPermissionCodeKvList = dictionaryService.getKeyValueList(Cons.DICTTYPE.RESOURCE_PERMISSION_CODE.name());
-        modelMap.put("frontendPermissionCodeKvList", frontendPermissionCodeKvList);
+        List<KeyValue> resourcePermissionCodeKvList = dictionaryService.getKeyValueList(Cons.DICTTYPE.RESOURCE_PERMISSION_CODE.name());
+        modelMap.put("resourcePermissionCodeKvList", resourcePermissionCodeKvList);
         return JsonResult.OK(modelMap);
     }
 
@@ -157,7 +157,7 @@ public class IamResourcePermissionController extends BaseCrudRestController<IamR
     */
     @ApiOperation(value = "更新列表排序")
     @PostMapping("/sortList")
-    @BindPermission(name="列表排序", code = Operation.UPDATE)
+    @BindPermission(name="列表排序", code = Operation.CODE_UPDATE)
     public JsonResult sortList(@RequestBody List<IamResourcePermission> permissionList) throws Exception {
         iamResourcePermissionService.sortList(permissionList);
         return JsonResult.OK().msg("更新成功");
