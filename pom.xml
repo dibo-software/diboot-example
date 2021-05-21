@@ -21,6 +21,7 @@
         <module>diboot-devtools-example</module>
         <module>diboot-iam-example</module>
         <module>diboot-file-example</module>
+        <module>diboot-miniapp</module>
     </modules>
 
     <properties>
